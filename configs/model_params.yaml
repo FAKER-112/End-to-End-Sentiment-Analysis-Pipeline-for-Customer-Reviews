@@ -1,0 +1,11 @@
+model:
+  name: RandomForestClassifier
+  n_estimators: 150
+  max_depth: 12
+  min_samples_split: 2
+  random_state: 42
+
+training:
+  test_size: 0.2
+  cross_validation_folds: 5
+  scoring_metric: "f1_score"

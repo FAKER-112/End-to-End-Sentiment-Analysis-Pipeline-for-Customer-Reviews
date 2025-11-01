@@ -1,0 +1,94 @@
+# General project metadata
+project:
+  name: "ml_project_name"
+  version: "0.1.0"
+  author: "Your Name"
+  description: "End-to-end ML project for <your use case>"
+
+# Paths configuration
+paths:
+  root_dir: "./"
+  data_dir: "./data"
+  raw_data_dir: "./data/raw"
+  processed_data_dir: "./data/processed"
+  models_dir: "./artifacts/models"
+  reports_dir: "./artifacts/reports"
+  logs_dir: "./logs"
+  notebooks_dir: "./notebooks"
+  saved_model_path: "./artifacts/models/final_model.pkl"
+
+# Data ingestion / collection
+data_ingestion:
+  source_url: "<data-source-URL-or-API>"
+  local_data_file: "./data/raw/dataset.csv"
+  test_size: 0.2
+  random_state: 42
+  shuffle: true
+
+# Data validation
+data_validation:
+  schema_file_path: "./configs/schema.yaml"
+  missing_value_threshold: 0.1
+  allowed_missing_columns:
+    - "column_name_1"
+    - "column_name_2"
+
+# Data transformation
+data_transformation:
+  scaler: "StandardScaler"  # or MinMaxScaler, RobustScaler
+  encoder: "OneHotEncoder"
+  imputation_strategy: "mean"
+  feature_selection:
+    method: "SelectKBest"
+    k: 20
+  target_column: "target"
+
+# Model training
+model_training:
+  model_name: "RandomForestClassifier"
+  hyperparameters:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2
+    random_state: 42
+  cross_validation:
+    folds: 5
+    scoring_metric: "accuracy"
+
+# Model evaluation
+model_evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1_score"
+    - "roc_auc"
+  save_report: true
+  report_file_path: "./artifacts/reports/model_evaluation_report.json"
+
+# Model deployment
+model_deployment:
+  use_docker: true
+  container_image: "ml_project:latest"
+  api_framework: "FastAPI"
+  port: 8080
+  monitor_performance: true
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_to_file: true
+  log_file_path: "./logs/app.log"
+  rotate_logs: true
+
+# Miscellaneous
+artifacts:
+  temp_dir: "./artifacts/temp"
+  cache_dir: "./artifacts/cache"
+
+# Environment configuration
+environment:
+  python_version: "3.10"
+  dependencies_file: "requirements.txt"
+  virtual_env: "venv"
+
