@@ -1,4 +1,4 @@
-import os 
+import os
 import sys
 import gzip
 import json
@@ -9,28 +9,71 @@ from src.utils.exception import CustomException
 from src.utils.utils import download_file
 from src.utils.config_parser import load_config
 
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append(project_root)
+class LoadData:
+    """Handles data ingestion: download, unzip, and save dataset."""
 
-class LOAD_DATA:
-    
-    def __init__(self, raw_data_yaml:str = 'configs\config.yaml'):
+    def __init__(self, raw_data_yaml: str = str(Path("configs/config.yaml"))):
+        '''
+        Initialize the LOAD_DATA instance and load configuration for data ingestion
+
+        :param self: Instance of the LOAD_DATA class
+        :param raw_data_yaml: Path to the YAML configuration file
+        :type raw_data_yaml: str
+        '''
         try:
-            self.config= load_config(raw_data_yaml)
+            self.config = load_config(raw_data_yaml)
             self.logger = logger
 
-            paths=self.config.get('paths', {})
-            load_cfg = self.config.get('data_ingestion', {})
-            self.save_dir= load_cfg.get('save_dir')
-            
-            
-            pass
-        except Exception as e:
-            raise CustomException(e)
-    def load_data(self, file_name):
-        try:
-            file_path = os.path.join(self.raw_data_path, file_name)
-            pass
+            paths = self.config.get("paths", {})
+            load_cfg = self.config.get("data_ingestion", {})
+
+            self.source_url = load_cfg.get("source_url")
+            self.save_dir = load_cfg.get("save_dir")
+            self.local_data_file = load_cfg.get("local_data_file")
+
+            os.makedirs(self.save_dir, exist_ok=True)
+            os.makedirs(os.path.dirname(self.local_data_file), exist_ok=True)
 
         except Exception as e:
+            raise CustomException(e)
+
+    def _download_file(self):
+        '''
+        Download a file from the configured source URL and update the download path
+
+        :param self: Instance of the LOAD_DATA class
+        '''
+        try:
+            self.logger.info(f"Downloading data from: {self.source_url}")
+            file_path = download_file(self.source_url, self.save_dir)
+            self.download_path = file_path
+            self.logger.info(f"File downloaded successfully: {self.download_path}")
+        except Exception as e:
+            self.logger.error("Error during file download.")
+            raise CustomException(e)
+
+    def _unzip(self):
+        try:
+            self.logger.info(f"Unzipping file: {self.download_path}")
+            reviews = []
+            with gzip.open(str(self.download_path).replace("\\", "/"), "rb") as f:
+                for line in f:
+                    reviews.append(json.loads(line))
+            df = pd.DataFrame(reviews)[["rating", "title", "text"]]
+            df.to_csv(self.local_data_file, index=False)
+            self.logger.info(f"Unzipped and saved dataset to {self.local_data_file}")
+            return df
+        except Exception as e:
+            self.logger.error("Error during unzip or data parsing.")
+            raise CustomException(e)
+
+    def load_data(self):
+        """End-to-end method to download and prepare dataset."""
+        try:
+            self._download_file()
+            df = self._unzip()
+            self.logger.info("Data ingestion completed successfully.")
+            return df
+        except Exception as e:
+            self.logger.error("Data ingestion failed.")
             raise CustomException(e)
