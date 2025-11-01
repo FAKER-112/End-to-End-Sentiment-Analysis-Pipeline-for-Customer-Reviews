@@ -6,7 +6,7 @@ structure = [
     "requirements.txt",
     "setup.py",
     ".gitignore",
-    {"data": ["raw", "processed", "external"]},
+    {"data": [{"raw":[]}, {"processed":[]}, {"external": []}]},
     {"notebooks": [
         "01_eda.ipynb",
         "02_feature_engineering.ipynb",

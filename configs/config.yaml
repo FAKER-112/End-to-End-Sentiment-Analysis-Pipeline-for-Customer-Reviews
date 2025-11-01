@@ -19,7 +19,8 @@ paths:
 
 # Data ingestion / collection
 data_ingestion:
-  source_url: "<data-source-URL-or-API>"
+  source_url: "https://mcauleylab.ucsd.edu/public_datasets/data/amazon_2023/raw/review_categories/All_Beauty.jsonl.gz"
+  save_dir: 'data/raw/'
   local_data_file: "./data/raw/dataset.csv"
   test_size: 0.2
   random_state: 42
