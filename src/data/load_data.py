@@ -37,6 +37,7 @@ class LoadData:
         except Exception as e:
             raise CustomException(e)
 
+
     def _download_file(self):
         '''
         Download a file from the configured source URL and update the download path
@@ -44,16 +45,22 @@ class LoadData:
         :param self: Instance of the LOAD_DATA class
         '''
         try:
+
             self.logger.info(f"Downloading data from: {self.source_url}")
             file_path = download_file(self.source_url, self.save_dir)
             self.download_path = file_path
             self.logger.info(f"File downloaded successfully: {self.download_path}")
+
         except Exception as e:
+
             self.logger.error("Error during file download.")
             raise CustomException(e)
 
+
     def _unzip(self):
+
         try:
+
             self.logger.info(f"Unzipping file: {self.download_path}")
             reviews = []
             with gzip.open(str(self.download_path).replace("\\", "/"), "rb") as f:
@@ -63,17 +70,24 @@ class LoadData:
             df.to_csv(self.local_data_file, index=False)
             self.logger.info(f"Unzipped and saved dataset to {self.local_data_file}")
             return df
+        
         except Exception as e:
+
             self.logger.error("Error during unzip or data parsing.")
             raise CustomException(e)
 
     def load_data(self):
+
         """End-to-end method to download and prepare dataset."""
+
         try:
+
             self._download_file()
             df = self._unzip()
             self.logger.info("Data ingestion completed successfully.")
             return df
+        
         except Exception as e:
+
             self.logger.error("Data ingestion failed.")
             raise CustomException(e)
