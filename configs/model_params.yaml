@@ -1,9 +1,58 @@
-model:
-  name: RandomForestClassifier
-  n_estimators: 150
-  max_depth: 12
-  min_samples_split: 2
-  random_state: 42
+# model_config.yaml
+lstm_model:
+  embedding:
+    num_words: 10000
+    embedding_dim: 100
+    max_len: 200
+    trainable: false
+  spatial_dropout: 0.3
+  lstm_units: 128
+  lstm_dropout: 0.2
+  lstm_recurrent_dropout: 0.2
+  dense_units: 64
+  dropout_rate: 0.3
+  compile:
+    loss: "binary_crossentropy"
+    optimizer: "adam"
+    metrics: ["accuracy"]
+
+cnn_model:
+  embedding:
+    num_words: 10000
+    embedding_dim: 100
+    max_len: 200
+    trainable: false
+  conv_filters: 128
+  conv_kernel_size: 5
+  dense_units: 64
+  dropout_rate: 0.3
+  compile:
+    loss: "binary_crossentropy"
+    optimizer: "adam"
+    metrics: ["accuracy"]
+
+cnn_lstm_model:
+  embedding:
+    num_words: 10000
+    embedding_dim: 100
+    trainable: true
+  conv_filters: 128
+  conv_kernel_size: 5
+  pool_size: 2
+  lstm_units: 64
+  dense_units: 64
+  dropout_rate: 0.3
+  compile:
+    loss: "binary_crossentropy"
+    optimizer: "adam"
+    metrics: ["accuracy"]
+
+logistic_regression:
+  max_iter: 1000
+  class_weight: "balanced"
+  additional_params:
+    random_state: 42
+    solver: "liblinear"
 
 training:
   test_size: 0.2
