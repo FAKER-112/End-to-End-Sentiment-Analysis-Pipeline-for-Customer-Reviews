@@ -32,13 +32,6 @@ clean_data:
   word_embedding_model_name: "glove-twitter-50"
   word_embedding_model_save_path: "./models/word2vec_google_news_300.kv"
 
-# Data validation
-data_validation:
-  schema_file_path: "./configs/schema.yaml"
-  missing_value_threshold: 0.1
-  allowed_missing_columns:
-    - "column_name_1"
-    - "column_name_2"
 
 # Data transformation
 data_transformation:

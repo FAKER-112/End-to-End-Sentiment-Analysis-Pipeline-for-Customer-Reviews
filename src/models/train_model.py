@@ -201,7 +201,7 @@ class ModelTrainer:
         best = max(self.metrics.items(), key=lambda x: x[1]["accuracy"])
         return best[0], self.models[best[0]], best[1]
 
-    def save_results(self, output_dir="./results"):
+    def save_results(self, output_dir="artifacts\models"):
         os.makedirs(output_dir, exist_ok=True)
         json.dump(self.metrics, open(os.path.join(output_dir, "metrics.json"), "w"), indent=2)
         pickle.dump(self.histories, open(os.path.join(output_dir, "histories.pkl"), "wb"))

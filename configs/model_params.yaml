@@ -90,4 +90,6 @@ models_to_train:
   - cnn_lstm
   - logistic_regression
 
-include_model_params: "./src/config/model_params.yaml"
+# include_model_params: "./src/config/model_params.yaml"
+save_dir:
+  

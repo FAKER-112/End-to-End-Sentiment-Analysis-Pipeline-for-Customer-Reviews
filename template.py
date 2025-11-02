@@ -56,9 +56,9 @@ structure = [
         "run_infer.py"
     ]},
     {"artifacts": [
-        "models",
-        "metrics",
-        "plots"
+        {"models" : []},
+        {"metrics":[] },
+        {"plots":[]}
     ]},
     {"docker": [
         "Dockerfile",
