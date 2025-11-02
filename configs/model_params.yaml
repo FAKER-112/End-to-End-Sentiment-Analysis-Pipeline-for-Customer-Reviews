@@ -1,20 +1,20 @@
-# model_config.yaml
 lstm_model:
   embedding:
-    num_words: 10000
-    embedding_dim: 100
-    max_len: 200
-    trainable: false
-  spatial_dropout: 0.3
-  lstm_units: 128
-  lstm_dropout: 0.2
-  lstm_recurrent_dropout: 0.2
-  dense_units: 64
-  dropout_rate: 0.3
+    num_words: 10000        # Size of tokenizer vocabulary
+    embedding_dim: 100      # Dimension of embeddings
+    max_len: 200            # Maximum sequence length
+    trainable: false        # Whether embedding weights can be updated
+  spatial_dropout: 0.3       # Dropout rate for embedding output
+  lstm_units: 128            # Number of LSTM units
+  lstm_dropout: 0.2          # Dropout within LSTM
+  lstm_recurrent_dropout: 0.2  # Dropout between LSTM timesteps
+  dense_units: 64            # Fully connected layer units
+  dropout_rate: 0.3          # Dropout after dense layer
   compile:
     loss: "binary_crossentropy"
     optimizer: "adam"
     metrics: ["accuracy"]
+
 
 cnn_model:
   embedding:
@@ -22,8 +22,8 @@ cnn_model:
     embedding_dim: 100
     max_len: 200
     trainable: false
-  conv_filters: 128
-  conv_kernel_size: 5
+  conv_filters: 128          # Number of convolution filters
+  conv_kernel_size: 5        # Filter size
   dense_units: 64
   dropout_rate: 0.3
   compile:
@@ -31,10 +31,12 @@ cnn_model:
     optimizer: "adam"
     metrics: ["accuracy"]
 
+
 cnn_lstm_model:
   embedding:
     num_words: 10000
     embedding_dim: 100
+    max_len: 200
     trainable: true
   conv_filters: 128
   conv_kernel_size: 5
@@ -47,14 +49,45 @@ cnn_lstm_model:
     optimizer: "adam"
     metrics: ["accuracy"]
 
+
 logistic_regression:
   max_iter: 1000
   class_weight: "balanced"
   additional_params:
-    random_state: 42
     solver: "liblinear"
+    random_state: 42
 
-training:
+# ============================================================
+# Global Configuration File
+# ============================================================
+
+# -----------------------------
+# Data preparation
+# -----------------------------
+data_preparation:
   test_size: 0.2
-  cross_validation_folds: 5
-  scoring_metric: "f1_score"
+  random_state: 42
+
+# -----------------------------
+# Text preprocessing (for LSTM/CNN models)
+# -----------------------------
+text_preprocessing:
+  text_column: "text"
+  num_words: 10000
+  max_len: 200
+  needs_tokenization: true
+  oov_token: "<OOV>"
+
+
+mlflow:
+  tracking_uri: "./mlruns"
+  experiment_name: "sentiment_analysis_experiment"
+
+
+models_to_train:
+  - lstm
+  - cnn
+  - cnn_lstm
+  - logistic_regression
+
+include_model_params: "./src/config/model_params.yaml"

@@ -25,15 +25,24 @@ class ModelBuilder:
             raise ValueError("Either config_path or config_dict must be provided")
 
     def _build_embedding_layer(self, embedding_params):
-        """Safely construct an embedding layer"""
-        embedding_matrix = embedding_params.get('embedding_matrix')
-        return Embedding(
-            input_dim=embedding_params.get('num_words'),
-            output_dim=embedding_params.get('embedding_dim'),
-            input_length=embedding_params.get('max_len'),
-            weights=[embedding_matrix] if embedding_matrix is not None else None,
-            trainable=embedding_params.get('trainable', False)
-        )
+        """
+        Builds an Embedding layer dynamically from tokenizer or pre-trained matrix.
+        """
+        if embedding_params.get("embedding_matrix") is not None:
+            return Embedding(
+                input_dim=embedding_params["embedding_matrix"].shape[0],
+                output_dim=embedding_params["embedding_matrix"].shape[1],
+                weights=[embedding_params["embedding_matrix"]],
+                input_length=embedding_params.get("max_len", 200),
+                trainable=embedding_params.get("trainable", False)
+            )
+        else:
+            return Embedding(
+                input_dim=embedding_params.get("num_words", 10000),
+                output_dim=embedding_params.get("embedding_dim", 100),
+                input_length=embedding_params.get("max_len", 200),
+                trainable=embedding_params.get("trainable", True)
+            )
 
     def build_lstm_model(self, model_params=None):
         model_params = model_params or self.config.get('lstm_model', {})
