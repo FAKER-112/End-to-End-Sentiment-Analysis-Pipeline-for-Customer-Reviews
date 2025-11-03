@@ -1,0 +1,32 @@
+2025-11-03 16:41:16,591 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py] at line [79]: AttributeError - 'NoneType' object has no attribute 'copy'
+2025-11-03 16:41:16,597 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py", line 79, in _load_models
+    trainer = ModelTrainer(
+              ^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 23, in __init__
+    self.df = dataframe.copy()
+              ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'copy'
+
+2025-11-03 16:41:16,844 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py] at line [145]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py] at line [79]: AttributeError - 'NoneType' object has no attribute 'copy'
+2025-11-03 16:41:16,851 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py", line 79, in _load_models
+    trainer = ModelTrainer(
+              ^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 23, in __init__
+    self.df = dataframe.copy()
+              ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'copy'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py", line 145, in run
+    models = self._load_models()
+             ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py", line 133, in _load_models
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\evaluate_pipeline.py] at line [79]: AttributeError - 'NoneType' object has no attribute 'copy'
+

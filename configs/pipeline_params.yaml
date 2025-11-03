@@ -15,3 +15,24 @@ training_pipeline:
   evaluation:
     save_dir: "artifacts/evaluation"
     best_model_dir: "artifacts/best_model"
+
+
+evaluation_pipeline:
+  data:
+    cleaned_data_path: "data/processed/cleaned_data.csv"
+
+  models:
+    source_dir: "artifacts/models"
+    evaluate_all: True
+    selected_model: "lstm"
+    train_all_models: true   
+    train_models_if_missing: true
+
+  evaluation:
+    save_dir: "artifacts/evaluation"
+    best_model_dir: "artifacts/best_model"
+
+  training:
+    config_path: "configs/config.yaml"
+    model_params_path: "configs/model_params.yaml"
+    target_column: "sentiment"

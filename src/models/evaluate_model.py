@@ -45,14 +45,14 @@ class ModelEvaluator:
     def save_best_model(self, best_model_name, best_model_obj, output_dir="artifacts/best_model"):
         """Save the best model as .h5"""
         os.makedirs(output_dir, exist_ok=True)
-        model_path = os.path.join(output_dir, f"{best_model_name}.h5")
+        model_path = os.path.join(output_dir, "best.h5")
 
         try:
             # Save depending on model type
             if hasattr(best_model_obj, "save"):  # Keras or DL model
                 best_model_obj.save(model_path)
             else:  # Scikit-learn model
-                model_path = os.path.join(output_dir, f"{best_model_name}.pkl")
+                model_path = os.path.join(output_dir, f"best.pkl")
                 with open(model_path, "wb") as f:
                     pickle.dump(best_model_obj, f)
 

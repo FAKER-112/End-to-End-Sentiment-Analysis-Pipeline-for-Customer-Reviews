@@ -33,7 +33,6 @@ class TrainingPipeline:
             logger.error("❌ Failed to initialize TrainingPipeline.")
             raise CustomException(e)
 
-    # -------------------------------------------------------------------------
     def run(self):
         """Run the entire pipeline as per defined stages."""
         try:
