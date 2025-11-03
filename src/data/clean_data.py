@@ -84,8 +84,12 @@ class CleanData:
             return np.zeros(model.vector_size)
         return np.mean(model[valid_words], axis=0)
 
-    def clean_data(self):
-        """Main method to clean, tokenize, and vectorize data."""
+    def clean_data(self, save: bool = True):
+        """Main method to clean, tokenize, and vectorize data.
+
+        Args:
+            save (bool): If True, save cleaned dataframe to CSV. If False, return only the DataFrame.
+        """
         try:
             self.logger.info("Loading raw dataset...")
             df = pd.read_csv(self.local_data_file)
@@ -102,13 +106,17 @@ class CleanData:
             self.logger.info("Generating sentence vectors...")
             df["vector"] = df["tokens"].apply(lambda x: self._sentence_vector(x, w2v_model))
 
-            # Save cleaned data
-            output_file = os.path.join(self.save_dir, "cleaned_data.csv")
-            df.to_csv(output_file, index=False)
-            self.logger.info(f"Cleaned data saved successfully at: {output_file}")
+            # ✅ Optional saving
+            if save:
+                output_file = os.path.join(self.save_dir, "cleaned_data.csv")
+                os.makedirs(os.path.dirname(output_file), exist_ok=True)
+                df.to_csv(output_file, index=False)
+                self.logger.info(f"💾 Cleaned data saved successfully at: {output_file}")
+            else:
+                self.logger.info("⚙️ Skipping save step (save=False). Returning DataFrame only.")
 
             return df
 
         except Exception as e:
-            self.logger.error("Error occurred during data cleaning.")
+            self.logger.error("❌ Error occurred during data cleaning.")
             raise CustomException(e)
