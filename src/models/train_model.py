@@ -94,6 +94,7 @@ class ModelTrainer:
 
                 if model_type == "logistic_regression":
                     model.fit(X_train, self.y_train)
+                    logger.info('logistic regression model trained')
                 else:
                     callbacks = self._setup_callbacks(train_cfg.get("callbacks", {}))
                     history = model.fit(
@@ -130,7 +131,7 @@ class ModelTrainer:
     def train_all_models(self):
         """Train all models defined in config"""
         results = {}
-        for m in self.config.get("models_to_train", ["lstm", "cnn", "cnn_lstm", "logistic_regression"]):
+        for m in self.config.get("models_to_train", ["logistic_regression","lstm", "cnn", "cnn_lstm"]):
             try:
                 model = self.train_model(m)
                 results[m] = model

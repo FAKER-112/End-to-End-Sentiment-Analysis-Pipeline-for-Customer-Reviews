@@ -159,6 +159,13 @@ class EvaluationPipeline:
 
             for name, model in models.items():
                 logger.info(f"📊 Evaluating model: {name}")
+                if name == 'logistic_regression':
+                    trainer._prepare_data(model_type="logistic_regression")
+                    X_test, y_test = trainer.X_test, trainer.y_test
+                else:
+                    trainer._prepare_data(model_type="lstm")
+                    X_test, y_test = trainer.X_test, trainer.y_test
+                    
                 metrics = evaluator.evaluate(model, X_test, y_test, name)
                 results[name] = metrics
 

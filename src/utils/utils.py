@@ -52,32 +52,45 @@ def datasplit(df: pd.DataFrame, test_size: float = 0.2, random_state: int = 42):
             X_train, X_test, y_train, y_test
     """
     try:
-        logger.info('Starting train-test split')
+        logger.info("Starting train-test split")
 
-        # --- validation ---
-        required_cols = ['vector', 'sentiment']
+        required_cols = ["vector", "sentiment"]
         missing = [c for c in required_cols if c not in df.columns]
         if missing:
             logger.error(f"Missing required columns: {missing}")
             raise ValueError(f"Missing required columns: {missing}")
 
+        # --- Convert any stringified vectors back to numeric arrays ---
+        def parse_vector(v):
+            if isinstance(v, str):
+                try:
+                    # handle cases like '[-0.62 0.13 ...]' or '[-0.62, 0.13, ...]'
+                    cleaned = v.replace("\n", " ").replace("[", "").replace("]", "").replace(",", " ")
+                    return np.fromstring(cleaned, sep=" ")
+                except Exception:
+                    # fallback: try literal_eval for list-like strings
+                    import ast
+                    return np.array(ast.literal_eval(v), dtype=float)
+            return np.array(v, dtype=float)
+
+        df["vector"] = df["vector"].apply(parse_vector)
+
         # --- features & labels ---
-        X = np.vstack(df['vector'].values)
+        X = np.vstack(df["vector"].values)
         encoder = LabelEncoder()
-        y = encoder.fit_transform(df['sentiment'])
+        y = encoder.fit_transform(df["sentiment"])
 
-        logger.info(f"Dataset shape: X={X.shape}, y={len(y)}")
+        logger.info(f"✅ Dataset shape: X={X.shape}, y={len(y)}")
 
-        # --- split ---
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=random_state
         )
 
-        logger.info(f"Train-test split complete: Train={X_train.shape[0]}, Test={X_test.shape[0]}")
+        logger.info(f"✅ Train-test split complete: Train={X_train.shape[0]}, Test={X_test.shape[0]}")
         return X_train, X_test, y_train, y_test
 
     except Exception as e:
-        logger.exception("Error during train-test split")
+        logger.exception("❌ Error during train-test split")
         raise CustomException(e)
 
 

@@ -1,0 +1,33 @@
+2025-11-03 20:06:05,496 - app_logger - INFO - Starting train-test split
+2025-11-03 20:06:05,505 - app_logger - INFO - Dataset shape: X=(1000, 1), y=1000
+2025-11-03 20:06:05,512 - app_logger - INFO - Train-test split complete: Train=800, Test=200
+2025-11-03 20:06:05,521 - app_logger - INFO - Building LOGISTIC_REGRESSION model...
+2025-11-03 20:06:05,566 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\models\train_model.py] at line [96]: str - LOGISTIC_REGRESSION training failed: could not convert string to float: '[-6.20397031e-01 -6.29863679e-01 -9.89179984e-02  1.03825666e-01\n -2.50271678e-01  7.24921301e-02  2.07879826e-01 -7.26933703e-02\n -5.71748197e-01 -6.44080281e-01 -5.49571812e-01  4.00043964e-01\n  2.43698552e-01  1.40454873e-01 -1.66524097e-01  8.30763578e-03\n -5.48707068e-01 -2.56007463e-01  3.44271779e-01  2.50158966e-01\n -3.13521698e-02 -7.31646642e-02 -2.15023503e-01  1.22206956e-01\n  2.49481514e-01  6.95800642e-03  5.52345486e-03  1.65343225e-01\n  1.60170436e-01 -1.26884924e-02 -2.37383065e-03  1.22597873e-01\n -2.83560663e-01 -3.56458038e-01 -7.27500841e-02 -1.99003801e-01\n -1.10864878e-01  2.90983033e+00 -9.95816942e-03 -2.06847787e-01\n -2.31916085e-01  2.75127947e-01 -1.86629102e-01  5.44029057e-01\n -1.17209017e-01  3.48867893e-01  6.38762349e-03  3.53854775e-01\n -3.20574492e-01  2.16717497e-01]'
+2025-11-03 20:06:05,621 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 96, in train_model
+    model.fit(X_train, self.y_train)
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\base.py", line 1365, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\linear_model\_logistic.py", line 1247, in fit
+    X, y = validate_data(
+           ^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\utils\validation.py", line 2971, in validate_data
+    X, y = check_X_y(X, y, **check_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\utils\validation.py", line 1368, in check_X_y
+    X = check_array(
+        ^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\utils\validation.py", line 1053, in check_array
+    array = _asarray_with_order(array, order=order, dtype=dtype, xp=xp)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\sklearn\utils\_array_api.py", line 757, in _asarray_with_order
+    array = numpy.asarray(array, order=order, dtype=dtype)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '[-6.20397031e-01 -6.29863679e-01 -9.89179984e-02  1.03825666e-01\n -2.50271678e-01  7.24921301e-02  2.07879826e-01 -7.26933703e-02\n -5.71748197e-01 -6.44080281e-01 -5.49571812e-01  4.00043964e-01\n  2.43698552e-01  1.40454873e-01 -1.66524097e-01  8.30763578e-03\n -5.48707068e-01 -2.56007463e-01  3.44271779e-01  2.50158966e-01\n -3.13521698e-02 -7.31646642e-02 -2.15023503e-01  1.22206956e-01\n  2.49481514e-01  6.95800642e-03  5.52345486e-03  1.65343225e-01\n  1.60170436e-01 -1.26884924e-02 -2.37383065e-03  1.22597873e-01\n -2.83560663e-01 -3.56458038e-01 -7.27500841e-02 -1.99003801e-01\n -1.10864878e-01  2.90983033e+00 -9.95816942e-03 -2.06847787e-01\n -2.31916085e-01  2.75127947e-01 -1.86629102e-01  5.44029057e-01\n -1.17209017e-01  3.48867893e-01  6.38762349e-03  3.53854775e-01\n -3.20574492e-01  2.16717497e-01]'
+
+2025-11-03 20:06:05,770 - app_logger - ERROR - Skipping logistic_regression: Error in file [c:\Users\User\Documents\Project\project_006\src\models\train_model.py] at line [96]: str - LOGISTIC_REGRESSION training failed: could not convert string to float: '[-6.20397031e-01 -6.29863679e-01 -9.89179984e-02  1.03825666e-01\n -2.50271678e-01  7.24921301e-02  2.07879826e-01 -7.26933703e-02\n -5.71748197e-01 -6.44080281e-01 -5.49571812e-01  4.00043964e-01\n  2.43698552e-01  1.40454873e-01 -1.66524097e-01  8.30763578e-03\n -5.48707068e-01 -2.56007463e-01  3.44271779e-01  2.50158966e-01\n -3.13521698e-02 -7.31646642e-02 -2.15023503e-01  1.22206956e-01\n  2.49481514e-01  6.95800642e-03  5.52345486e-03  1.65343225e-01\n  1.60170436e-01 -1.26884924e-02 -2.37383065e-03  1.22597873e-01\n -2.83560663e-01 -3.56458038e-01 -7.27500841e-02 -1.99003801e-01\n -1.10864878e-01  2.90983033e+00 -9.95816942e-03 -2.06847787e-01\n -2.31916085e-01  2.75127947e-01 -1.86629102e-01  5.44029057e-01\n -1.17209017e-01  3.48867893e-01  6.38762349e-03  3.53854775e-01\n -3.20574492e-01  2.16717497e-01]'
+2025-11-03 20:06:06,011 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 20:06:06,323 - app_logger - INFO - Sequence split complete: Train=(800, 200), Test=(200, 200)
+2025-11-03 20:06:06,349 - app_logger - INFO - Building LSTM model...

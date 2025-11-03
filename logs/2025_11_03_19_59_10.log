@@ -1,0 +1,16 @@
+2025-11-03 19:59:26,750 - app_logger - INFO - File already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 19:59:26,751 - app_logger - INFO - Skipping download as file already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 19:59:26,753 - app_logger - INFO - Unzipping file: data/raw/All_Beauty.jsonl.gz
+2025-11-03 19:59:50,270 - app_logger - INFO - Unzipped and saved dataset to ./data/raw/dataset.csv
+2025-11-03 19:59:50,653 - app_logger - INFO - Data ingestion completed successfully.
+2025-11-03 19:59:50,678 - app_logger - INFO - Loading raw dataset...
+2025-11-03 19:59:50,796 - app_logger - INFO - Starting data cleaning and tokenization...
+2025-11-03 19:59:55,698 - app_logger - INFO - Loading or downloading word embedding model...
+2025-11-03 19:59:55,701 - app_logger - INFO - Loading word embedding model from: artifacts/models/wiki_giga_2024_50_MFT20_vectors_seed_123_alpha_0.75_eta_0.075_combined.txt
+2025-11-03 20:03:26,938 - app_logger - INFO - Generating sentence vectors...
+2025-11-03 20:03:27,999 - app_logger - INFO - Cleaned data saved successfully at: ./data/processed/cleaned_data.csv
+2025-11-03 20:03:30,712 - app_logger - INFO - Starting train-test split
+2025-11-03 20:03:30,717 - app_logger - INFO - Dataset shape: X=(1000, 50), y=1000
+2025-11-03 20:03:30,720 - app_logger - INFO - Train-test split complete: Train=800, Test=200
+2025-11-03 20:03:30,732 - app_logger - INFO - Building LOGISTIC_REGRESSION model...
+2025-11-03 20:03:30,792 - app_logger - INFO - logistic regression model trained

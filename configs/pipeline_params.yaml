@@ -7,7 +7,7 @@ training_pipeline:
       - evaluate_model
 
   training:
-    model_type: "lstm"                  # Options: lstm | cnn | cnn_lstm | logistic_regression
+    model_type: "logistic_regression"                  # Options: lstm | cnn | cnn_lstm | logistic_regression
     target_column: "sentiment"          # Column to predict
     config_path: "configs/config.yaml"  # General config (data + logging + env)
     model_params_path: "configs/model_params.yaml"
