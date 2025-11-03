@@ -120,3 +120,69 @@ class CleanData:
         except Exception as e:
             self.logger.error("❌ Error occurred during data cleaning.")
             raise CustomException(e)
+    def process_input(
+        self,
+        title,
+        text=None,
+        use_tokenizer=False,
+        batch_mode=False,
+        separator="|||"
+    ):
+        """
+        Clean and vectorize new input(s) for inference or evaluation.
+
+        Args:
+            title (str): Title or titles (batch input if batch_mode=True).
+            text (str, optional): Text or texts corresponding to titles.
+            use_tokenizer (bool): If True, use pre-trained tokenizer (for sequence models).
+            batch_mode (bool): If True, treat inputs as batch separated by 'separator'.
+            separator (str): String delimiter to split multiple inputs in batch mode.
+
+        Returns:
+            pd.DataFrame: Cleaned and vectorized data with consistent structure.
+        """
+        try:
+            import pickle
+            from tensorflow.keras.preprocessing.sequence import pad_sequences
+            from tensorflow.keras.preprocessing.text import Tokenizer
+
+            # --- Handle batch input ---
+            if batch_mode:
+                title_list = [t.strip() for t in title.split(separator)]
+                text_list = [t.strip() for t in text.split(separator)] if text else ["" for _ in title_list]
+                df = pd.DataFrame({"title": title_list, "text": text_list})
+                self.logger.info(f"🧾 Batch mode: received {len(df)} samples")
+            else:
+                df = pd.DataFrame({"title": [title], "text": [text or ""]})
+
+            # --- Clean and tokenize ---
+            df["full_text"] = df["title"].fillna("") + " " + df["text"].fillna("")
+            df["clean_text"] = df["full_text"].apply(self._clean_text)
+            df["tokens"] = df["clean_text"].apply(self._preprocess_tokens)
+
+            # --- Use tokenizer or embedding model ---
+            if use_tokenizer:
+                tok_path = self.config["clean_data"].get("tokenizer_path", "artifacts/models/tokenizer.pkl")
+                if not os.path.exists(tok_path):
+                    raise FileNotFoundError(f"Tokenizer not found at {tok_path}")
+                with open(tok_path, "rb") as f:
+                    tokenizer = pickle.load(f)
+
+                text_cfg = self.config.get("text_preprocessing", {})
+                max_len = text_cfg.get("max_len", 200)
+
+                sequences = tokenizer.texts_to_sequences(df["clean_text"])
+                padded = pad_sequences(sequences, maxlen=max_len, padding="post", truncating="post")
+                df["sequence"] = list(padded)
+                self.logger.info(f"✅ Processed {len(df)} samples using tokenizer")
+
+            else:
+                w2v_model = self._load_or_download_model()
+                df["vector"] = df["tokens"].apply(lambda x: self._sentence_vector(x, w2v_model))
+                self.logger.info(f"✅ Processed {len(df)} samples using embedding vectors")
+
+            return df
+
+        except Exception as e:
+            self.logger.error(f"❌ Failed to process input: {e}")
+            raise CustomException(e)

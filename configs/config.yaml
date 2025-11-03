@@ -31,6 +31,8 @@ clean_data:
   shuffle: true
   word_embedding_model_name: "glove-twitter-50"
   word_embedding_model_save_path: "artifacts/models/wiki_giga_2024_50_MFT20_vectors_seed_123_alpha_0.75_eta_0.075_combined.txt"
+  tokenizer_path: "artifacts/models/tokenizer.pkl"
+
 
 
 # Data transformation

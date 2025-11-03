@@ -3,10 +3,10 @@ import os
 import pandas as pd 
 import numpy as np
 from sklearn.model_selection import train_test_split
+import pickle
 from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-import numpy as np
 from src.utils.logger import logger
 from src.utils.exception import CustomException
 
@@ -137,7 +137,16 @@ def sequence_split(df, config):
             padded_sequences, y, test_size=test_size, random_state=random_state
         )
 
-        logger.info(f"Sequence split complete: Train={X_train.shape}, Test={X_test.shape}")
+        # --- Save tokenizer ---
+        artifacts_dir = os.path.join("artifacts", "models")
+        os.makedirs(artifacts_dir, exist_ok=True)
+        tokenizer_path = os.path.join(artifacts_dir, "tokenizer.pkl")
+
+        with open(tokenizer_path, "wb") as f:
+            pickle.dump(tokenizer, f)
+        logger.info(f"💾 Tokenizer saved at: {tokenizer_path}")
+
+        logger.info(f"✅ Sequence split complete: Train={X_train.shape}, Test={X_test.shape}")
         return X_train, X_test, y_train, y_test, tokenizer
 
     except Exception as e:

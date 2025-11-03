@@ -1,0 +1,14 @@
+2025-11-03 21:56:57,551 - app_logger - INFO - Starting train-test split
+2025-11-03 21:56:57,634 - app_logger - INFO - Building LOGISTIC_REGRESSION model...
+2025-11-03 21:56:57,679 - app_logger - INFO - logistic regression model trained
+2025-11-03 21:57:20,515 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 21:57:20,824 - app_logger - INFO - Building LSTM model...
+2025-11-03 21:59:08,928 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 21:59:09,295 - app_logger - INFO - Building CNN model...
+2025-11-03 22:00:11,652 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 22:00:12,837 - app_logger - INFO - Building CNN_LSTM model...
+2025-11-03 22:01:13,839 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 22:01:14,073 - app_logger - INFO - Starting train-test split
+2025-11-03 22:01:14,168 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 22:01:16,067 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 22:01:16,716 - app_logger - INFO - Starting sequence-based data preparation
