@@ -21,6 +21,20 @@ def download_file(url, dest_folder):
     # Get the file name from the URL
     filename = url.split('/')[-1]
     file_path = os.path.join(dest_folder, filename)
+
+    # Download the file
+    try:
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # Raise an error for bad status codes (e.g., 404)
+
+        with open(file_path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        print(f"Downloaded {filename} to {file_path}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading {url}: {e}")
+        raise  # Re-raise the exception for the caller to handle if needed
+
     return file_path
 
 

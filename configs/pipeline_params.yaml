@@ -1,12 +1,17 @@
-pipeline:
-  stages:
-    - name: data_ingestion
-      script: src/pipeline/stage_01_data_ingestion.py
-    - name: data_validation
-      script: src/pipeline/stage_02_data_validation.py
-    - name: data_transformation
-      script: src/pipeline/stage_03_data_transformation.py
-    - name: model_training
-      script: src/pipeline/stage_04_model_training.py
-    - name: model_evaluation
-      script: src/pipeline/stage_05_model_evaluation.py
+training_pipeline:
+  pipeline:
+    stages:
+      - load_data
+      - clean_data
+      - train_model
+      - evaluate_model
+
+  training:
+    model_type: "lstm"                  # Options: lstm | cnn | cnn_lstm | logistic_regression
+    target_column: "sentiment"          # Column to predict
+    config_path: "configs/config.yaml"  # General config (data + logging + env)
+    model_params_path: "configs/model_params.yaml"
+
+  evaluation:
+    save_dir: "artifacts/evaluation"
+    best_model_dir: "artifacts/best_model"

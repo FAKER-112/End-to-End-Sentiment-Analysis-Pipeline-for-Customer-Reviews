@@ -67,7 +67,7 @@ class ModelTrainer:
 
     def _get_training_data(self, model_type):
         self._prepare_data(model_type=model_type)
-        return (self.X_train, self.X_test) if model_type == "logistic_regression" else (self.X_train.values, self.X_test.values)
+        return (self.X_train, self.X_test) if model_type == "logistic_regression" else (self.X_train, self.X_test)
 
     def _setup_callbacks(self, cfg):
         callbacks = []

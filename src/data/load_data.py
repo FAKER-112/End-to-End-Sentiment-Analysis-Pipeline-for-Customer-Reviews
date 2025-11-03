@@ -36,24 +36,47 @@ class LoadData:
 
         except Exception as e:
             raise CustomException(e)
+    def _check_file_exists(self):
+            '''
+            Check if the file from the source URL already exists in the save directory.
 
+            :return: Tuple of (bool: exists, str: file_path)
+            '''
+            # Compute the expected file name and path (mirroring logic from download_file)
+            filename = self.source_url.split('/')[-1]
+            file_path = os.path.join(self.save_dir, filename)
+            
+            if os.path.exists(file_path):
+                self.logger.info(f"File already exists: {file_path}")
+                return True, file_path
+            else:
+                self.logger.info(f"File does not exist: {file_path}. Proceeding to download.")
+                return False, file_path
 
     def _download_file(self):
         '''
-        Download a file from the configured source URL and update the download path
+        Download a file from the configured source URL and update the download path,
+        but only if it doesn't already exist.
 
         :param self: Instance of the LOAD_DATA class
         '''
         try:
-
+            # First, check if the file exists
+            exists, file_path = self._check_file_exists()
+            
+            if exists:
+                self.download_path = file_path
+                self.logger.info(f"Skipping download as file already exists: {self.download_path}")
+                return  # Exit early if file exists
+            
+            # If not, proceed with download
             self.logger.info(f"Downloading data from: {self.source_url}")
             file_path = download_file(self.source_url, self.save_dir)
             self.download_path = file_path
             self.logger.info(f"File downloaded successfully: {self.download_path}")
 
         except Exception as e:
-
-            self.logger.error("Error during file download.")
+            self.logger.error("Error during file download or check.")
             raise CustomException(e)
 
 
@@ -67,7 +90,7 @@ class LoadData:
                 for line in f:
                     reviews.append(json.loads(line))
             df = pd.DataFrame(reviews)[["rating", "title", "text"]]
-            df.to_csv(self.local_data_file, index=False)
+            df[:1000].to_csv(self.local_data_file, index=False)
             self.logger.info(f"Unzipped and saved dataset to {self.local_data_file}")
             return df
         

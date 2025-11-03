@@ -1,0 +1,7 @@
+2025-11-03 13:48:15,920 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py] at line [20]: FileNotFoundError - Pipeline config not found at: configs/training_pipeline.yaml
+2025-11-03 13:48:15,923 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py", line 20, in __init__
+    raise FileNotFoundError(f"Pipeline config not found at: {pipeline_config_path}")
+FileNotFoundError: Pipeline config not found at: configs/training_pipeline.yaml
+

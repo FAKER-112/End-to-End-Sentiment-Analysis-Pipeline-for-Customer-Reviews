@@ -1,2 +1,7 @@
 pipt/
 mlruns/
+__pycache__/
+*.csv
+*.txt
+*.gz
+*.h5

@@ -4,6 +4,7 @@ import yaml
 import nltk
 import numpy as np
 import pandas as pd
+from pathlib import Path
 from gensim.downloader import load as api_load
 from gensim.models import KeyedVectors
 from nltk.tokenize import word_tokenize
@@ -14,14 +15,14 @@ from src.utils.exception import CustomException
 from src.utils.config_parser import load_config
 
 # Ensure required NLTK data is available
-nltk.download("punkt", quiet=True)
-nltk.download("stopwords", quiet=True)
-nltk.download("wordnet", quiet=True)
+# nltk.download("punkt", quiet=True)
+# nltk.download("stopwords", quiet=True)
+# nltk.download("wordnet", quiet=True)
 
 class CleanData:
     """Cleans, preprocesses, and vectorizes text data."""
 
-    def __init__(self, config_path="configs/config.yaml"):
+    def __init__(self, config_path: str = str(Path("configs/config.yaml"))):
         try:
             self.config_path = config_path
             self.config = load_config(config_path)
@@ -57,7 +58,7 @@ class CleanData:
         try:
             if os.path.exists(self.w_e_model_save_path):
                 self.logger.info(f"Loading word embedding model from: {self.w_e_model_save_path}")
-                return KeyedVectors.load(self.w_e_model_save_path)
+                return  KeyedVectors.load_word2vec_format(self.w_e_model_save_path, binary=False, no_header=True)
             self.logger.info(f"Downloading word embedding model: {self.w_e_model_name}")
             model = api_load(self.w_e_model_name)
             os.makedirs(os.path.dirname(self.w_e_model_save_path), exist_ok=True)

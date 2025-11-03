@@ -1,0 +1,45 @@
+2025-11-03 15:36:13,182 - app_logger - INFO - File already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:36:13,183 - app_logger - INFO - Skipping download as file already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:36:13,185 - app_logger - INFO - Unzipping file: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:36:45,307 - app_logger - INFO - Unzipped and saved dataset to ./data/raw/dataset.csv
+2025-11-03 15:36:45,726 - app_logger - INFO - Data ingestion completed successfully.
+2025-11-03 15:36:45,758 - app_logger - INFO - Loading raw dataset...
+2025-11-03 15:36:45,825 - app_logger - INFO - Starting data cleaning and tokenization...
+2025-11-03 15:36:50,198 - app_logger - INFO - Loading or downloading word embedding model...
+2025-11-03 15:36:50,200 - app_logger - INFO - Loading word embedding model from: artifacts/models/wiki_giga_2024_50_MFT20_vectors_seed_123_alpha_0.75_eta_0.075_combined.txt
+2025-11-03 15:39:42,692 - app_logger - INFO - Generating sentence vectors...
+2025-11-03 15:39:43,427 - app_logger - INFO - Cleaned data saved successfully at: ./data/processed/cleaned_data.csv
+2025-11-03 15:39:46,475 - app_logger - INFO - Starting sequence-based data preparation
+2025-11-03 15:39:46,687 - app_logger - INFO - Sequence split complete: Train=(800, 200), Test=(200, 200)
+2025-11-03 15:39:46,709 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\models\train_model.py] at line [90]: str - LSTM training failed: 'numpy.ndarray' object has no attribute 'values'
+2025-11-03 15:39:46,711 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 90, in train_model
+    X_train, X_test = self._get_training_data(model_type)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 70, in _get_training_data
+    return (self.X_train, self.X_test) if model_type == "logistic_regression" else (self.X_train.values, self.X_test.values)
+                                                                                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'values'
+
+2025-11-03 15:39:46,743 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py] at line [64]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\models\train_model.py] at line [90]: str - LSTM training failed: 'numpy.ndarray' object has no attribute 'values'
+2025-11-03 15:39:46,748 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 90, in train_model
+    X_train, X_test = self._get_training_data(model_type)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 70, in _get_training_data
+    return (self.X_train, self.X_test) if model_type == "logistic_regression" else (self.X_train.values, self.X_test.values)
+                                                                                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'numpy.ndarray' object has no attribute 'values'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py", line 64, in run
+    model = trainer.train_model(model_type)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\models\train_model.py", line 127, in train_model
+    raise CustomException(f"{model_type.upper()} training failed: {e}")
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\models\train_model.py] at line [90]: str - LSTM training failed: 'numpy.ndarray' object has no attribute 'values'
+

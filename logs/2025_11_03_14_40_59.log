@@ -1,0 +1,121 @@
+2025-11-03 14:41:21,882 - app_logger - INFO - File already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 14:41:21,882 - app_logger - INFO - Skipping download as file already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 14:41:21,884 - app_logger - INFO - Unzipping file: data/raw/All_Beauty.jsonl.gz
+2025-11-03 14:41:55,942 - app_logger - INFO - Unzipped and saved dataset to ./data/raw/dataset.csv
+2025-11-03 14:41:56,278 - app_logger - INFO - Data ingestion completed successfully.
+2025-11-03 14:41:56,304 - app_logger - INFO - Loading raw dataset...
+2025-11-03 14:42:00,981 - app_logger - INFO - Starting data cleaning and tokenization...
+2025-11-03 14:58:04,479 - app_logger - INFO - Loading or downloading word embedding model...
+2025-11-03 14:58:04,481 - app_logger - INFO - Downloading word embedding model: glove-twitter-50
+2025-11-03 14:58:41,284 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+2025-11-03 14:58:41,290 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 219, in _load_info
+    with io.open(cache_path, 'r', encoding=encoding) as fin:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\User/gensim-data\\information.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 63, in _load_or_download_model
+    model = api_load(self.w_e_model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 490, in load
+    file_name = _get_filename(name)
+                ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 426, in _get_filename
+    information = info()
+                  ^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 268, in info
+    information = _load_info()
+                  ^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 222, in _load_info
+    raise ValueError(
+ValueError: unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+
+2025-11-03 14:58:41,301 - app_logger - ERROR - Error occurred during data cleaning.
+2025-11-03 14:58:41,302 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+2025-11-03 14:58:41,305 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 219, in _load_info
+    with io.open(cache_path, 'r', encoding=encoding) as fin:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\User/gensim-data\\information.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 63, in _load_or_download_model
+    model = api_load(self.w_e_model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 490, in load
+    file_name = _get_filename(name)
+                ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 426, in _get_filename
+    information = info()
+                  ^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 268, in info
+    information = _load_info()
+                  ^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 222, in _load_info
+    raise ValueError(
+ValueError: unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 100, in clean_data
+    w2v_model = self._load_or_download_model()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 69, in _load_or_download_model
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+
+2025-11-03 14:58:41,337 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py] at line [53]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+2025-11-03 14:58:41,340 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 219, in _load_info
+    with io.open(cache_path, 'r', encoding=encoding) as fin:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\User/gensim-data\\information.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 63, in _load_or_download_model
+    model = api_load(self.w_e_model_name)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 490, in load
+    file_name = _get_filename(name)
+                ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 426, in _get_filename
+    information = info()
+                  ^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 268, in info
+    information = _load_info()
+                  ^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\downloader.py", line 222, in _load_info
+    raise ValueError(
+ValueError: unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 100, in clean_data
+    w2v_model = self._load_or_download_model()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 69, in _load_or_download_model
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py", line 53, in run
+    df = CleanData().clean_data()
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 114, in clean_data
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [63]: ValueError - unable to read local cache 'C:\\Users\\User/gensim-data\\information.json' during fallback, connect to the Internet and retry
+

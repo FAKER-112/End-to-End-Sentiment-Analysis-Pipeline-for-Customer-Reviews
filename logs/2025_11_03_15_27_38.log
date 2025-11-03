@@ -1,0 +1,91 @@
+2025-11-03 15:28:01,524 - app_logger - INFO - File already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:28:01,525 - app_logger - INFO - Skipping download as file already exists: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:28:01,530 - app_logger - INFO - Unzipping file: data/raw/All_Beauty.jsonl.gz
+2025-11-03 15:28:25,535 - app_logger - INFO - Unzipped and saved dataset to ./data/raw/dataset.csv
+2025-11-03 15:28:25,993 - app_logger - INFO - Data ingestion completed successfully.
+2025-11-03 15:28:26,026 - app_logger - INFO - Loading raw dataset...
+2025-11-03 15:28:26,082 - app_logger - INFO - Starting data cleaning and tokenization...
+2025-11-03 15:28:31,156 - app_logger - INFO - Loading or downloading word embedding model...
+2025-11-03 15:28:31,158 - app_logger - INFO - Loading word embedding model from: artifacts/models/wiki_giga_2024_50_MFT20_vectors_seed_123_alpha_0.75_eta_0.075_combined.txt
+2025-11-03 15:28:31,161 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+2025-11-03 15:28:31,164 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 61, in _load_or_download_model
+    return  KeyedVectors.load_word2vec_format(self.w_e_model_save_path, binary=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 1721, in load_word2vec_format
+    return _load_word2vec_format(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in _load_word2vec_format
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in <listcomp>
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                               ^^^^^^
+ValueError: invalid literal for int() with base 10: 'the'
+
+2025-11-03 15:28:31,173 - app_logger - ERROR - Error occurred during data cleaning.
+2025-11-03 15:28:31,175 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+2025-11-03 15:28:31,178 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 61, in _load_or_download_model
+    return  KeyedVectors.load_word2vec_format(self.w_e_model_save_path, binary=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 1721, in load_word2vec_format
+    return _load_word2vec_format(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in _load_word2vec_format
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in <listcomp>
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                               ^^^^^^
+ValueError: invalid literal for int() with base 10: 'the'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 100, in clean_data
+    w2v_model = self._load_or_download_model()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 69, in _load_or_download_model
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+
+2025-11-03 15:28:31,225 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py] at line [53]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+2025-11-03 15:28:31,231 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 61, in _load_or_download_model
+    return  KeyedVectors.load_word2vec_format(self.w_e_model_save_path, binary=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 1721, in load_word2vec_format
+    return _load_word2vec_format(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in _load_word2vec_format
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\site-packages\gensim\models\keyedvectors.py", line 2061, in <listcomp>
+    vocab_size, vector_size = [int(x) for x in header.split()]  # throws for invalid file format
+                               ^^^^^^
+ValueError: invalid literal for int() with base 10: 'the'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 100, in clean_data
+    w2v_model = self._load_or_download_model()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 69, in _load_or_download_model
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py", line 53, in run
+    df = CleanData().clean_data()
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\clean_data.py", line 114, in clean_data
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [100]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\clean_data.py] at line [61]: ValueError - invalid literal for int() with base 10: 'the'
+

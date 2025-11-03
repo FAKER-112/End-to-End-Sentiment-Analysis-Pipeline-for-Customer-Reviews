@@ -1,0 +1,77 @@
+2025-11-03 14:00:11,483 - app_logger - INFO - Downloading data from: https://mcauleylab.ucsd.edu/public_datasets/data/amazon_2023/raw/review_categories/All_Beauty.jsonl.gz
+2025-11-03 14:00:11,484 - app_logger - INFO - File downloaded successfully: data/raw/All_Beauty.jsonl.gz
+2025-11-03 14:00:11,486 - app_logger - INFO - Unzipping file: data/raw/All_Beauty.jsonl.gz
+2025-11-03 14:00:11,488 - app_logger - ERROR - Error during unzip or data parsing.
+2025-11-03 14:00:11,490 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+2025-11-03 14:00:11,532 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 66, in _unzip
+    with gzip.open(str(self.download_path).replace("\\", "/"), "rb") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 58, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 174, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
+2025-11-03 14:00:11,536 - app_logger - ERROR - Data ingestion failed.
+2025-11-03 14:00:11,537 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [86]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+2025-11-03 14:00:11,540 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 66, in _unzip
+    with gzip.open(str(self.download_path).replace("\\", "/"), "rb") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 58, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 174, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 86, in load_data
+    df = self._unzip()
+         ^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 77, in _unzip
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
+2025-11-03 14:00:11,601 - app_logger - ERROR - Error in file [c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py] at line [50]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [86]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+2025-11-03 14:00:11,605 - app_logger - ERROR - Full traceback:
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 66, in _unzip
+    with gzip.open(str(self.download_path).replace("\\", "/"), "rb") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 58, in open
+    binary_file = GzipFile(filename, gz_mode, compresslevel)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\anaconda3\Lib\gzip.py", line 174, in __init__
+    fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 86, in load_data
+    df = self._unzip()
+         ^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 77, in _unzip
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\User\Documents\Project\project_006\src\pipeline\train_pipeline.py", line 50, in run
+    df = LoadData().load_data()
+         ^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\User\Documents\Project\project_006\src\data\load_data.py", line 93, in load_data
+    raise CustomException(e)
+src.utils.exception.CustomException: Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [86]: CustomException - Error in file [c:\Users\User\Documents\Project\project_006\src\data\load_data.py] at line [66]: FileNotFoundError - [Errno 2] No such file or directory: 'data/raw/All_Beauty.jsonl.gz'
+
