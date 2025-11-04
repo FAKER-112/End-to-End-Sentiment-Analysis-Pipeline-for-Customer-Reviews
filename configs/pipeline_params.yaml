@@ -37,10 +37,11 @@ evaluation_pipeline:
     model_params_path: "configs/model_params.yaml"
     target_column: "sentiment"
 
-    
+
 inference_pipeline:
   model_path: "artifacts/best_model/best.h5"
   clean_config_path: "configs/config.yaml"
   batch_separator: "|||"
   save_results: true
   output_path: "artifacts/inference/inference_results.csv"
+  
