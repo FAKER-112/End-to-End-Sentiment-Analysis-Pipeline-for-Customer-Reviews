@@ -1,3 +1,24 @@
+"""
+Data Cleaning and Preprocessing Module for Customer Review Analysis Pipeline
+
+This module handles comprehensive text preprocessing and vectorization for customer review datasets.
+It provides functionality to:
+    - Clean raw text data (lowercasing, removing URLs, special characters, and extra whitespace)
+    - Label sentiment based on review ratings (positive: ≥3.5, negative: <3.5)
+    - Tokenize text and apply natural language processing (NLP) transformations:
+        * Remove stopwords using NLTK
+        * Lemmatize tokens using WordNet lemmatizer
+    - Load or download pre-trained word embedding models (Word2Vec from Gensim)
+    - Convert text into numerical sentence vectors by averaging word embeddings
+    - Process both training data and new inputs for inference/evaluation
+    - Support batch processing and optional tokenizer-based preprocessing for sequence models
+
+The CleanData class orchestrates the entire cleaning and vectorization workflow, using configuration
+from a YAML file to manage model paths, data paths, and preprocessing parameters. The module supports
+both traditional embedding-based vectorization and tokenizer-based sequence generation for different
+model architectures. All operations include comprehensive logging and custom exception handling.
+"""
+
 import os
 import re
 import yaml
@@ -18,6 +39,7 @@ from src.utils.config_parser import load_config
 # nltk.download("punkt", quiet=True)
 # nltk.download("stopwords", quiet=True)
 # nltk.download("wordnet", quiet=True)
+
 
 class CleanData:
     """Cleans, preprocesses, and vectorizes text data."""
@@ -57,8 +79,12 @@ class CleanData:
         """Load local embedding model or download if not present."""
         try:
             if os.path.exists(self.w_e_model_save_path):
-                self.logger.info(f"Loading word embedding model from: {self.w_e_model_save_path}")
-                return  KeyedVectors.load_word2vec_format(self.w_e_model_save_path, binary=False, no_header=True)
+                self.logger.info(
+                    f"Loading word embedding model from: {self.w_e_model_save_path}"
+                )
+                return KeyedVectors.load_word2vec_format(
+                    self.w_e_model_save_path, binary=False, no_header=True
+                )
             self.logger.info(f"Downloading word embedding model: {self.w_e_model_name}")
             model = api_load(self.w_e_model_name)
             os.makedirs(os.path.dirname(self.w_e_model_save_path), exist_ok=True)
@@ -104,29 +130,31 @@ class CleanData:
             w2v_model = self._load_or_download_model()
 
             self.logger.info("Generating sentence vectors...")
-            df["vector"] = df["tokens"].apply(lambda x: self._sentence_vector(x, w2v_model))
+            df["vector"] = df["tokens"].apply(
+                lambda x: self._sentence_vector(x, w2v_model)
+            )
 
             # ✅ Optional saving
             if save:
                 output_file = os.path.join(self.save_dir, "cleaned_data.csv")
                 os.makedirs(os.path.dirname(output_file), exist_ok=True)
                 df.to_csv(output_file, index=False)
-                self.logger.info(f"💾 Cleaned data saved successfully at: {output_file}")
+                self.logger.info(
+                    f"💾 Cleaned data saved successfully at: {output_file}"
+                )
             else:
-                self.logger.info("⚙️ Skipping save step (save=False). Returning DataFrame only.")
+                self.logger.info(
+                    "⚙️ Skipping save step (save=False). Returning DataFrame only."
+                )
 
             return df
 
         except Exception as e:
             self.logger.error("❌ Error occurred during data cleaning.")
             raise CustomException(e)
+
     def process_input(
-        self,
-        title,
-        text=None,
-        use_tokenizer=False,
-        batch_mode=False,
-        separator="|||"
+        self, title, text=None, use_tokenizer=False, batch_mode=False, separator="|||"
     ):
         """
         Clean and vectorize new input(s) for inference or evaluation.
@@ -149,7 +177,11 @@ class CleanData:
             # --- Handle batch input ---
             if batch_mode:
                 title_list = [t.strip() for t in title.split(separator)]
-                text_list = [t.strip() for t in text.split(separator)] if text else ["" for _ in title_list]
+                text_list = (
+                    [t.strip() for t in text.split(separator)]
+                    if text
+                    else ["" for _ in title_list]
+                )
                 df = pd.DataFrame({"title": title_list, "text": text_list})
                 self.logger.info(f"🧾 Batch mode: received {len(df)} samples")
             else:
@@ -162,7 +194,9 @@ class CleanData:
 
             # --- Use tokenizer or embedding model ---
             if use_tokenizer:
-                tok_path = self.config["clean_data"].get("tokenizer_path", "artifacts/models/tokenizer.pkl")
+                tok_path = self.config["clean_data"].get(
+                    "tokenizer_path", "artifacts/models/tokenizer.pkl"
+                )
                 if not os.path.exists(tok_path):
                     raise FileNotFoundError(f"Tokenizer not found at {tok_path}")
                 with open(tok_path, "rb") as f:
@@ -172,14 +206,20 @@ class CleanData:
                 max_len = text_cfg.get("max_len", 200)
 
                 sequences = tokenizer.texts_to_sequences(df["clean_text"])
-                padded = pad_sequences(sequences, maxlen=max_len, padding="post", truncating="post")
+                padded = pad_sequences(
+                    sequences, maxlen=max_len, padding="post", truncating="post"
+                )
                 df["sequence"] = list(padded)
                 self.logger.info(f"✅ Processed {len(df)} samples using tokenizer")
 
             else:
                 w2v_model = self._load_or_download_model()
-                df["vector"] = df["tokens"].apply(lambda x: self._sentence_vector(x, w2v_model))
-                self.logger.info(f"✅ Processed {len(df)} samples using embedding vectors")
+                df["vector"] = df["tokens"].apply(
+                    lambda x: self._sentence_vector(x, w2v_model)
+                )
+                self.logger.info(
+                    f"✅ Processed {len(df)} samples using embedding vectors"
+                )
 
             return df
 

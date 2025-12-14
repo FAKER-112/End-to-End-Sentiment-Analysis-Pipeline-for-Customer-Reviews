@@ -1,3 +1,34 @@
+"""
+Model Training Module for Customer Review Sentiment Analysis Pipeline
+
+This module provides comprehensive training capabilities for multiple machine learning models.
+It provides functionality to:
+    - Prepare training and test data for different model architectures:
+        * Vector-based data for traditional ML models (Logistic Regression)
+        * Sequence-based data for deep learning models (LSTM, CNN, CNN-LSTM)
+    - Train multiple model types with flexible configuration:
+        * Logistic Regression for baseline performance
+        * LSTM models for sequence-based learning
+        * CNN models for pattern recognition
+        * Hybrid CNN-LSTM models for combined approaches
+    - Configure and apply training callbacks:
+        * EarlyStopping to prevent overfitting
+        * ReduceLROnPlateau for adaptive learning rate adjustment
+    - Track experiments and log metrics using MLflow:
+        * Log model parameters and hyperparameters
+        * Log trained models for version control
+        * Track training history and performance metrics
+    - Save trained models in appropriate formats:
+        * .pkl format for scikit-learn models (Logistic Regression)
+        * .h5 format for Keras/TensorFlow models (LSTM, CNN, CNN-LSTM)
+    - Support batch training of multiple models with a single method call
+
+The ModelTrainer class orchestrates the complete training workflow, reading configurations from
+YAML files, preparing data appropriately for each model type, training with optimal settings,
+and persisting both models and training artifacts. The module integrates with MLflow for
+comprehensive experiment tracking and includes robust error handling and logging throughout.
+"""
+
 import os
 import yaml
 import json
@@ -53,28 +84,44 @@ class ModelTrainer:
         try:
             logger.info(f"🔄 Preparing data for model type: {model_type}")
             if model_type in ["lstm", "cnn", "cnn_lstm"]:
-                self.X_train, self.X_test, self.y_train, self.y_test, self.tokenizer = sequence_split(self.df, self.config)
+                self.X_train, self.X_test, self.y_train, self.y_test, self.tokenizer = (
+                    sequence_split(self.df, self.config)
+                )
             else:
                 self.X_train, self.X_test, self.y_train, self.y_test = datasplit(
                     self.df,
-                    test_size=self.config.get("data_preparation", {}).get("test_size", 0.2),
-                    random_state=self.config.get("data_preparation", {}).get("random_state", 42),
+                    test_size=self.config.get("data_preparation", {}).get(
+                        "test_size", 0.2
+                    ),
+                    random_state=self.config.get("data_preparation", {}).get(
+                        "random_state", 42
+                    ),
                 )
-            logger.info(f"✅ Data ready for {model_type} — Train: {self.X_train.shape}, Test: {self.X_test.shape}")
+            logger.info(
+                f"✅ Data ready for {model_type} — Train: {self.X_train.shape}, Test: {self.X_test.shape}"
+            )
         except Exception as e:
             logger.exception(f"❌ Error preparing data for {model_type}: {str(e)}")
             raise CustomException(e)
 
     def _get_training_data(self, model_type):
         self._prepare_data(model_type=model_type)
-        return (self.X_train, self.X_test) if model_type == "logistic_regression" else (self.X_train, self.X_test)
+        return (
+            (self.X_train, self.X_test)
+            if model_type == "logistic_regression"
+            else (self.X_train, self.X_test)
+        )
 
     def _setup_callbacks(self, cfg):
         callbacks = []
         if cfg.get("early_stopping", True):
-            callbacks.append(EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True))
+            callbacks.append(
+                EarlyStopping(monitor="val_loss", patience=5, restore_best_weights=True)
+            )
         if cfg.get("reduce_lr", True):
-            callbacks.append(ReduceLROnPlateau(monitor="val_loss", factor=0.2, patience=3))
+            callbacks.append(
+                ReduceLROnPlateau(monitor="val_loss", factor=0.2, patience=3)
+            )
         return callbacks
 
     # -------------------------------------------------------------------------
@@ -90,27 +137,44 @@ class ModelTrainer:
                 X_train, X_test = self._get_training_data(model_type)
                 model = self.model_builder.build_model(model_type, custom_params)
 
-                mlflow.log_params({"model_type": model_type, **{k: v for k, v in train_cfg.items() if isinstance(v, (int, float, str, bool))}})
+                mlflow.log_params(
+                    {
+                        "model_type": model_type,
+                        **{
+                            k: v
+                            for k, v in train_cfg.items()
+                            if isinstance(v, (int, float, str, bool))
+                        },
+                    }
+                )
 
                 if model_type == "logistic_regression":
                     model.fit(X_train, self.y_train)
-                    logger.info('logistic regression model trained')
+                    logger.info("logistic regression model trained")
                 else:
                     callbacks = self._setup_callbacks(train_cfg.get("callbacks", {}))
                     history = model.fit(
-                        X_train, self.y_train,
+                        X_train,
+                        self.y_train,
                         validation_data=(X_test, self.y_test),
                         epochs=train_cfg.get("epochs", 10),
                         batch_size=train_cfg.get("batch_size", 32),
                         callbacks=callbacks,
-                        verbose=train_cfg.get("verbose", 1)
+                        verbose=train_cfg.get("verbose", 1),
                     )
                     self.histories[model_type] = history.history
 
                 # Save trained model
                 output_dir = os.path.join("artifacts", "models", model_type)
                 os.makedirs(output_dir, exist_ok=True)
-                model_path = os.path.join(output_dir, f"{model_type}.pkl" if model_type == "logistic_regression" else f"{model_type}.h5")
+                model_path = os.path.join(
+                    output_dir,
+                    (
+                        f"{model_type}.pkl"
+                        if model_type == "logistic_regression"
+                        else f"{model_type}.h5"
+                    ),
+                )
 
                 if model_type == "logistic_regression":
                     pickle.dump(model, open(model_path, "wb"))
@@ -131,7 +195,9 @@ class ModelTrainer:
     def train_all_models(self):
         """Train all models defined in config"""
         results = {}
-        for m in self.config.get("models_to_train", ["logistic_regression","lstm", "cnn", "cnn_lstm"]):
+        for m in self.config.get(
+            "models_to_train", ["logistic_regression", "lstm", "cnn", "cnn_lstm"]
+        ):
             try:
                 model = self.train_model(m)
                 results[m] = model

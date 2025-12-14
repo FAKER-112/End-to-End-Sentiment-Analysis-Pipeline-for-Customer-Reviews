@@ -1,3 +1,27 @@
+"""
+Model Evaluation Module for Customer Review Sentiment Analysis Pipeline
+
+This module provides comprehensive evaluation capabilities for trained machine learning models.
+It provides functionality to:
+    - Compute standard classification metrics for model performance assessment:
+        * Accuracy - overall correctness of predictions
+        * Precision - positive predictive value (weighted average across classes)
+        * Recall - sensitivity or true positive rate (weighted average across classes)
+        * F1 Score - harmonic mean of precision and recall (weighted average across classes)
+    - Compare multiple trained models using consistent evaluation metrics
+    - Identify the best-performing model based on accuracy scores
+    - Save evaluation results and metrics to JSON files for analysis and reporting
+    - Save the best-performing model in appropriate formats:
+        * .h5 format for Keras/TensorFlow deep learning models
+        * .pkl format for scikit-learn traditional ML models
+    - Handle both neural network models and traditional ML models uniformly
+
+The ModelEvaluator class orchestrates the evaluation workflow, computing metrics for all models,
+comparing their performance, and persisting both the evaluation results and the best model for
+production deployment. The module includes comprehensive logging for tracking the evaluation
+process and model selection decisions.
+"""
+
 import os
 import json
 import pickle
@@ -20,7 +44,9 @@ class ModelEvaluator:
             y_pred = (y_pred > 0.5).astype("int32")
         metrics = {
             "accuracy": accuracy_score(y_test, y_pred),
-            "precision": precision_score(y_test, y_pred, average="weighted", zero_division=0),
+            "precision": precision_score(
+                y_test, y_pred, average="weighted", zero_division=0
+            ),
             "recall": recall_score(y_test, y_pred, average="weighted", zero_division=0),
             "f1": f1_score(y_test, y_pred, average="weighted", zero_division=0),
         }
@@ -32,7 +58,9 @@ class ModelEvaluator:
         """Select best model based on accuracy"""
         best_model_name = max(results, key=lambda x: results[x]["accuracy"])
         best_metrics = results[best_model_name]
-        logger.info(f"🏆 Best model: {best_model_name} (Accuracy={best_metrics['accuracy']:.4f})")
+        logger.info(
+            f"🏆 Best model: {best_model_name} (Accuracy={best_metrics['accuracy']:.4f})"
+        )
         return best_model_name, best_metrics
 
     def save_results(self, results, output_dir="artifacts/evaluation"):
@@ -42,7 +70,9 @@ class ModelEvaluator:
             json.dump(results, f, indent=4)
         logger.info(f"💾 Evaluation results saved to {metrics_path}")
 
-    def save_best_model(self, best_model_name, best_model_obj, output_dir="artifacts/best_model"):
+    def save_best_model(
+        self, best_model_name, best_model_obj, output_dir="artifacts/best_model"
+    ):
         """Save the best model as .h5"""
         os.makedirs(output_dir, exist_ok=True)
         model_path = os.path.join(output_dir, "best.h5")
@@ -63,7 +93,9 @@ class ModelEvaluator:
 
 
 if __name__ == "__main__":
-    df = CleanData().clean_data()  # assuming LoadData() is already called inside CleanData
+    df = (
+        CleanData().clean_data()
+    )  # assuming LoadData() is already called inside CleanData
     trainer = ModelTrainer(df, "config.yaml", target_column="label")
     trained_models = trainer.train_all_models()
 
