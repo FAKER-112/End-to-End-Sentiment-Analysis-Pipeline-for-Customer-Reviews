@@ -1,6 +1,37 @@
+"""
+Training Pipeline Module for Customer Review Sentiment Analysis
+
+This module provides end-to-end orchestration of the complete machine learning training workflow.
+It provides functionality to:
+    - Orchestrate multiple pipeline stages in a configurable sequence:
+        * Data ingestion - downloading and loading raw review data
+        * Data cleaning - preprocessing, tokenization, and vectorization
+        * Model training - training one or more ML/DL models
+        * Model evaluation - computing metrics and selecting the best model
+    - Load pipeline configuration from YAML files specifying:
+        * Pipeline stages to execute in order
+        * Training parameters (config paths, target columns, model types)
+        * Evaluation parameters (output directories for metrics and models)
+    - Coordinate data flow between pipeline stages:
+        * Pass cleaned data from preprocessing to training
+        * Pass trained models and test data to evaluation
+    - Execute selective or complete workflows based on configuration
+    - Handle errors gracefully with comprehensive logging at each stage
+    - Support flexible pipeline customization without code changes
+
+The TrainingPipeline class orchestrates the entire workflow by reading a YAML configuration
+that defines which stages to run and their parameters. This allows easy modification of the
+pipeline flow (e.g., skipping data loading if data is already available) and experimentation
+with different model types and evaluation strategies. The module integrates all components
+of the ML pipeline into a cohesive, production-ready training workflow.
+"""
+
 import os, sys
 import yaml
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+project_root = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 sys.path.append(project_root)
 from src.data.load_data import LoadData
 from src.data.clean_data import CleanData
@@ -17,13 +48,17 @@ class TrainingPipeline:
         try:
             logger.info("🔧 Initializing Training Pipeline...")
             if not os.path.exists(pipeline_config_path):
-                raise FileNotFoundError(f"Pipeline config not found at: {pipeline_config_path}")
+                raise FileNotFoundError(
+                    f"Pipeline config not found at: {pipeline_config_path}"
+                )
 
             with open(pipeline_config_path, "r") as f:
                 self.pipeline_config = yaml.safe_load(f).get("training_pipeline", {})
 
             # Parse configuration sections
-            self.pipeline_stages = self.pipeline_config.get("pipeline", {}).get("stages", [])
+            self.pipeline_stages = self.pipeline_config.get("pipeline", {}).get(
+                "stages", []
+            )
             self.training_cfg = self.pipeline_config.get("training", {})
             self.eval_cfg = self.pipeline_config.get("evaluation", {})
 
@@ -65,13 +100,23 @@ class TrainingPipeline:
 
                 elif stage == "evaluate_model":
                     if trainer is None:
-                        raise CustomException("Trainer not initialized before evaluation.")
+                        raise CustomException(
+                            "Trainer not initialized before evaluation."
+                        )
                     evaluator = ModelEvaluator()
                     X_test, y_test = trainer.X_test, trainer.y_test
                     model_type = self.training_cfg.get("model_type")
-                    metrics = evaluator.evaluate(trainer.models[model_type], X_test, y_test, model_type)
-                    evaluator.save_results({model_type: metrics}, output_dir=self.eval_cfg.get("save_dir"))
-                    evaluator.save_best_model(model_type, trainer.models[model_type], output_dir=self.eval_cfg.get("best_model_dir"))
+                    metrics = evaluator.evaluate(
+                        trainer.models[model_type], X_test, y_test, model_type
+                    )
+                    evaluator.save_results(
+                        {model_type: metrics}, output_dir=self.eval_cfg.get("save_dir")
+                    )
+                    evaluator.save_best_model(
+                        model_type,
+                        trainer.models[model_type],
+                        output_dir=self.eval_cfg.get("best_model_dir"),
+                    )
                     logger.info(f"🏁 Evaluation completed for model: {model_type}")
 
                 else:

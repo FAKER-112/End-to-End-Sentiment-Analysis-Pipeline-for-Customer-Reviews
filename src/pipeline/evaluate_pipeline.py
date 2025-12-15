@@ -1,10 +1,49 @@
+"""
+Evaluation Pipeline Module for Customer Review Sentiment Analysis
+
+This module provides comprehensive evaluation capabilities for comparing and selecting the best model.
+It provides functionality to:
+    - Load or prepare cleaned data for evaluation:
+        * Load pre-processed data from disk if available
+        * Automatically run data cleaning pipeline if data is missing
+    - Load trained models from disk with flexible options:
+        * Load all models from artifacts directory for comparison
+        * Load a specific selected model for targeted evaluation
+        * Automatically train models if artifacts are missing (configurable)
+        * Force retrain all models from scratch (configurable)
+    - Support multiple model formats:
+        * .h5 format for Keras/TensorFlow deep learning models
+        * .pkl format for scikit-learn traditional ML models
+    - Prepare appropriate test data for different model types:
+        * Sequence-based test data for deep learning models (LSTM, CNN, CNN-LSTM)
+        * Vector-based test data for traditional ML models (Logistic Regression)
+    - Evaluate all loaded models using consistent metrics:
+        * Accuracy, Precision, Recall, F1 Score (weighted averages)
+    - Compare models and identify the best performer based on accuracy
+    - Save comprehensive evaluation results:
+        * Metrics for all evaluated models in JSON format
+        * Best-performing model for production deployment
+    - Provide flexible configuration via YAML files for:
+        * Data source paths and preprocessing options
+        * Model loading strategies and training fallbacks
+        * Evaluation output directories
+
+The EvaluationPipeline class orchestrates the complete evaluation workflow, from data preparation
+through model comparison to final model selection. It intelligently handles missing data or models
+by falling back to data cleaning or model training as configured. The module is designed for
+both standalone evaluation runs and integration into larger ML workflows.
+"""
+
 import os, sys
 import sys
 import yaml
 import json
 import pickle
 import numpy as np
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+project_root = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 sys.path.append(project_root)
 from tensorflow.keras.models import load_model
 from src.data.clean_data import CleanData
@@ -15,7 +54,9 @@ from src.utils.logger import logger
 from src.utils.exception import CustomException
 
 # Ensure root path for imports
-project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+project_root = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+)
 sys.path.append(project_root)
 
 
@@ -46,11 +87,14 @@ class EvaluationPipeline:
     def _load_or_prepare_data(self):
         """Load preprocessed data or generate cleaned data if missing."""
         try:
-            cleaned_path = self.data_cfg.get("cleaned_data_path", "data/processed/cleaned_data.csv")
+            cleaned_path = self.data_cfg.get(
+                "cleaned_data_path", "data/processed/cleaned_data.csv"
+            )
 
             if os.path.exists(cleaned_path):
                 logger.info(f"📂 Loading cleaned data from {cleaned_path}")
                 import pandas as pd
+
                 df = pd.read_csv(cleaned_path)
             else:
                 logger.warning("⚠️ Cleaned data not found, running CleanData()...")
@@ -62,6 +106,7 @@ class EvaluationPipeline:
         except Exception as e:
             logger.error("❌ Failed to load or prepare data.")
             raise CustomException(e)
+
     def _load_models(self, df=None):
         """Load models or train depending on config flags."""
         source_dir = self.model_cfg.get("source_dir", "artifacts/models")
@@ -75,7 +120,9 @@ class EvaluationPipeline:
         try:
             # ✅ 1. Force retrain all models if specified
             if train_all:
-                logger.info("🧠 Config specifies train_all_models=True — retraining all models...")
+                logger.info(
+                    "🧠 Config specifies train_all_models=True — retraining all models..."
+                )
                 trainer = ModelTrainer(
                     dataframe=df,
                     yaml_config_path=self.train_cfg.get("config_path"),
@@ -132,7 +179,6 @@ class EvaluationPipeline:
             logger.error(f"❌ Failed to load models: {e}")
             raise CustomException(e)
 
-
     def run(self):
         """Execute full evaluation pipeline."""
         try:
@@ -159,13 +205,13 @@ class EvaluationPipeline:
 
             for name, model in models.items():
                 logger.info(f"📊 Evaluating model: {name}")
-                if name == 'logistic_regression':
+                if name == "logistic_regression":
                     trainer._prepare_data(model_type="logistic_regression")
                     X_test, y_test = trainer.X_test, trainer.y_test
                 else:
                     trainer._prepare_data(model_type="lstm")
                     X_test, y_test = trainer.X_test, trainer.y_test
-                    
+
                 metrics = evaluator.evaluate(model, X_test, y_test, name)
                 results[name] = metrics
 
@@ -175,7 +221,11 @@ class EvaluationPipeline:
 
             # Save metrics and best model
             evaluator.save_results(results, output_dir=self.eval_cfg.get("save_dir"))
-            evaluator.save_best_model(best_model_name, best_model_obj, output_dir=self.eval_cfg.get("best_model_dir"))
+            evaluator.save_best_model(
+                best_model_name,
+                best_model_obj,
+                output_dir=self.eval_cfg.get("best_model_dir"),
+            )
 
             logger.info(f"🏁 Evaluation complete. Best model: {best_model_name}")
             return results, best_model_name, best_metrics
@@ -187,7 +237,9 @@ class EvaluationPipeline:
 
 if __name__ == "__main__":
     try:
-        pipeline = EvaluationPipeline(pipeline_config_path="configs/pipeline_params.yaml")
+        pipeline = EvaluationPipeline(
+            pipeline_config_path="configs/pipeline_params.yaml"
+        )
         pipeline.run()
     except Exception as e:
         logger.error(f"🔥 Fatal error in EvaluationPipeline: {e}")
