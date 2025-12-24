@@ -26,8 +26,8 @@ To set up the project on your local machine, follow these steps:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/FAKER-112/End-to-End-Sentiment-Analysis-Pipeline-for-Customer-Reviews.git
+cd End-to-End-Sentiment-Analysis-Pipeline-for-Customer-Reviews
 ```
 
 ### 2. Create a Virtual Environment
@@ -36,7 +36,7 @@ It is recommended to use a virtual environment to manage the project's dependenc
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+source venv/bin/activate  
 ```
 
 ### 3. Install Dependencies
