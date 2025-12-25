@@ -27,9 +27,9 @@ from src.pipeline.inference_pipeline import InferencePipeline
 from src.utils.exception import CustomException
 
 
-# ============================================================================
+ 
 # FIXTURES
-# ============================================================================
+ 
 
 
 @pytest.fixture
@@ -112,9 +112,9 @@ def mock_model():
     return model
 
 
-# ============================================================================
+ 
 # TRAINING PIPELINE TESTS
-# ============================================================================
+ 
 
 
 class TestTrainingPipeline:
@@ -285,9 +285,9 @@ class TestTrainingPipeline:
         pipeline.run()  # Should complete without errors
 
 
-# ============================================================================
+ 
 # EVALUATION PIPELINE TESTS
-# ============================================================================
+ 
 
 
 class TestEvaluationPipeline:
@@ -508,9 +508,9 @@ class TestEvaluationPipeline:
         mock_evaluator_instance.save_best_model.assert_called_once()
 
 
-# ============================================================================
+ 
 # INFERENCE PIPELINE TESTS
-# ============================================================================
+ 
 
 
 class TestInferencePipeline:
@@ -761,9 +761,9 @@ class TestInferencePipeline:
             mock_to_csv.assert_called_once()
 
 
-# ============================================================================
+ 
 # INTEGRATION TESTS
-# ============================================================================
+ 
 
 
 class TestPipelineIntegration:

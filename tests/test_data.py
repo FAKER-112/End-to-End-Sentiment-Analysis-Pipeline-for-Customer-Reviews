@@ -26,9 +26,9 @@ from src.data.clean_data import CleanData
 from src.utils.exception import CustomException
 
 
-# ============================================================================
+ 
 # FIXTURES
-# ============================================================================
+ 
 
 
 @pytest.fixture
@@ -82,9 +82,9 @@ def sample_dataframe():
     )
 
 
-# ============================================================================
+ 
 # LOAD DATA TESTS
-# ============================================================================
+ 
 
 
 class TestLoadData:
@@ -259,9 +259,9 @@ class TestLoadData:
         assert os.path.exists(processed_dir / "reviews.csv")
 
 
-# ============================================================================
+ 
 # CLEAN DATA TESTS
-# ============================================================================
+ 
 
 
 class TestCleanData:
@@ -474,9 +474,9 @@ class TestCleanData:
         assert "sequence" in df.columns
 
 
-# ============================================================================
+ 
 # INTEGRATION TESTS
-# ============================================================================
+ 
 
 
 class TestDataIntegration:

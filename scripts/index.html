@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +38,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
+            background-image:
                 linear-gradient(var(--grid-color) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -53,11 +54,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                to bottom,
-                transparent 50%,
-                rgba(0, 0, 0, 0.1) 50%
-            );
+            background: linear-gradient(to bottom,
+                    transparent 50%,
+                    rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px;
             z-index: -1;
             pointer-events: none;
@@ -68,6 +67,7 @@
             0% {
                 background-position: 0 0;
             }
+
             100% {
                 background-position: 0 100%;
             }
@@ -154,9 +154,11 @@
             0% {
                 opacity: 1;
             }
+
             50% {
                 opacity: 0.5;
             }
+
             100% {
                 opacity: 1;
             }
@@ -207,7 +209,8 @@
             letter-spacing: 1px;
         }
 
-        input, textarea {
+        input,
+        textarea {
             width: 100%;
             padding: 12px;
             background-color: rgba(0, 0, 0, 0.5);
@@ -218,7 +221,8 @@
             transition: all 0.3s;
         }
 
-        input:focus, textarea:focus {
+        input:focus,
+        textarea:focus {
             outline: none;
             box-shadow: 0 0 10px var(--neon-blue);
         }
@@ -259,12 +263,10 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
             transition: left 0.5s;
         }
 
@@ -419,6 +421,7 @@
             0% {
                 transform: scale(0);
             }
+
             100% {
                 transform: scale(1);
             }
@@ -428,6 +431,7 @@
             0% {
                 transform: scale(1);
             }
+
             100% {
                 transform: scale(0);
             }
@@ -437,6 +441,7 @@
             0% {
                 transform: translate(0, 0);
             }
+
             100% {
                 transform: translate(24px, 0);
             }
@@ -484,63 +489,83 @@
             0% {
                 clip: rect(42px, 9999px, 44px, 0);
             }
+
             5% {
                 clip: rect(12px, 9999px, 59px, 0);
             }
+
             10% {
                 clip: rect(48px, 9999px, 29px, 0);
             }
+
             15% {
                 clip: rect(42px, 9999px, 73px, 0);
             }
+
             20% {
                 clip: rect(63px, 9999px, 27px, 0);
             }
+
             25% {
                 clip: rect(34px, 9999px, 55px, 0);
             }
+
             30% {
                 clip: rect(86px, 9999px, 73px, 0);
             }
+
             35% {
                 clip: rect(20px, 9999px, 20px, 0);
             }
+
             40% {
                 clip: rect(26px, 9999px, 60px, 0);
             }
+
             45% {
                 clip: rect(25px, 9999px, 66px, 0);
             }
+
             50% {
                 clip: rect(57px, 9999px, 98px, 0);
             }
+
             55% {
                 clip: rect(5px, 9999px, 46px, 0);
             }
+
             60% {
                 clip: rect(82px, 9999px, 31px, 0);
             }
+
             65% {
                 clip: rect(54px, 9999px, 27px, 0);
             }
+
             70% {
                 clip: rect(28px, 9999px, 99px, 0);
             }
+
             75% {
                 clip: rect(45px, 9999px, 69px, 0);
             }
+
             80% {
                 clip: rect(23px, 9999px, 85px, 0);
             }
+
             85% {
                 clip: rect(54px, 9999px, 84px, 0);
             }
+
             90% {
                 clip: rect(45px, 9999px, 47px, 0);
             }
+
             95% {
                 clip: rect(37px, 9999px, 20px, 0);
             }
+
             100% {
                 clip: rect(4px, 9999px, 91px, 0);
             }
@@ -550,69 +575,90 @@
             0% {
                 clip: rect(65px, 9999px, 100px, 0);
             }
+
             5% {
                 clip: rect(52px, 9999px, 74px, 0);
             }
+
             10% {
                 clip: rect(79px, 9999px, 85px, 0);
             }
+
             15% {
                 clip: rect(75px, 9999px, 5px, 0);
             }
+
             20% {
                 clip: rect(67px, 9999px, 61px, 0);
             }
+
             25% {
                 clip: rect(14px, 9999px, 79px, 0);
             }
+
             30% {
                 clip: rect(1px, 9999px, 66px, 0);
             }
+
             35% {
                 clip: rect(86px, 9999px, 30px, 0);
             }
+
             40% {
                 clip: rect(23px, 9999px, 98px, 0);
             }
+
             45% {
                 clip: rect(85px, 9999px, 72px, 0);
             }
+
             50% {
                 clip: rect(71px, 9999px, 75px, 0);
             }
+
             55% {
                 clip: rect(2px, 9999px, 48px, 0);
             }
+
             60% {
                 clip: rect(30px, 9999px, 16px, 0);
             }
+
             65% {
                 clip: rect(59px, 9999px, 50px, 0);
             }
+
             70% {
                 clip: rect(41px, 9999px, 62px, 0);
             }
+
             75% {
                 clip: rect(2px, 9999px, 82px, 0);
             }
+
             80% {
                 clip: rect(47px, 9999px, 73px, 0);
             }
+
             85% {
                 clip: rect(3px, 9999px, 27px, 0);
             }
+
             90% {
                 clip: rect(26px, 9999px, 55px, 0);
             }
+
             95% {
                 clip: rect(42px, 9999px, 97px, 0);
             }
+
             100% {
                 clip: rect(38px, 9999px, 49px, 0);
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -640,7 +686,7 @@
                     <textarea id="text-input" placeholder="Enter review text (optional)..."></textarea>
                 </div>
                 <button class="btn" id="analyze-btn">Analyze Sentiment</button>
-                
+
                 <div class="loading" id="single-loading">
                     <div class="loading-dots">
                         <div></div>
@@ -650,7 +696,7 @@
                     </div>
                     <p>Processing sentiment analysis...</p>
                 </div>
-                
+
                 <div class="result" id="single-result">
                     <h3 class="result-title">Analysis Result</h3>
                     <div class="sentiment-display">
@@ -668,10 +714,11 @@
                 <h2 class="panel-title">Batch Analysis</h2>
                 <div class="input-group batch-input">
                     <label for="batch-input">Batch Data (JSON Format)</label>
-                    <textarea id="batch-input" placeholder='[{"title": "Product 1", "text": "Review text 1"}, {"title": "Product 2", "text": "Review text 2"}]'></textarea>
+                    <textarea id="batch-input"
+                        placeholder='[{"title": "Product 1", "text": "Review text 1"}, {"title": "Product 2", "text": "Review text 2"}]'></textarea>
                 </div>
                 <button class="btn" id="batch-analyze-btn">Analyze Batch</button>
-                
+
                 <div class="loading" id="batch-loading">
                     <div class="loading-dots">
                         <div></div>
@@ -681,7 +728,7 @@
                     </div>
                     <p>Processing batch analysis...</p>
                 </div>
-                
+
                 <div class="batch-result" id="batch-result">
                     <h3 class="result-title">Batch Results</h3>
                     <div id="batch-results-container">
@@ -703,7 +750,8 @@
         </div>
 
         <footer>
-            <p>Sentiment Analysis test interface v1.0 | CYBERPUNK INTERFACE | API STATUS: <span id="api-status">CHECKING</span></p>
+            <p>Sentiment Analysis test interface v1.0 | CYBERPUNK INTERFACE | API STATUS: <span
+                    id="api-status">CHECKING</span></p>
         </footer>
     </div>
 
@@ -728,7 +776,7 @@
         const batchResultsBody = document.getElementById('batch-results-body');
 
         // Check API health on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             checkAPIHealth();
         });
 
@@ -737,7 +785,7 @@
             try {
                 const response = await fetch(`${API_BASE_URL}/health`);
                 const data = await response.json();
-                
+
                 if (data.status === 'healthy' && data.model_loaded) {
                     systemStatus.textContent = 'OPERATIONAL';
                     systemStatus.style.color = '#00ff00';
@@ -762,18 +810,18 @@
         }
 
         // Single analysis
-        analyzeBtn.addEventListener('click', async function() {
+        analyzeBtn.addEventListener('click', async function () {
             const title = document.getElementById('title-input').value.trim();
             const text = document.getElementById('text-input').value.trim();
-            
+
             if (!title) {
                 alert('Please enter a title');
                 return;
             }
-            
+
             singleLoading.style.display = 'block';
             singleResult.style.display = 'none';
-            
+
             try {
                 const response = await fetch(`${API_BASE_URL}/predict`, {
                     method: 'POST',
@@ -785,16 +833,16 @@
                         text: text || null
                     })
                 });
-                
+
                 if (!response.ok) {
                     throw new Error(`API error: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
-                
+
                 // Display results
                 displaySingleResult(data);
-                
+
             } catch (error) {
                 console.error('Analysis failed:', error);
                 alert('Analysis failed. Please check the API connection.');
@@ -804,14 +852,14 @@
         });
 
         // Batch analysis
-        batchAnalyzeBtn.addEventListener('click', async function() {
+        batchAnalyzeBtn.addEventListener('click', async function () {
             const batchInput = document.getElementById('batch-input').value.trim();
-            
+
             if (!batchInput) {
                 alert('Please enter batch data in JSON format');
                 return;
             }
-            
+
             let items;
             try {
                 items = JSON.parse(batchInput);
@@ -822,15 +870,15 @@
                 alert('Invalid JSON format. Please check your input.');
                 return;
             }
-            
+
             batchLoading.style.display = 'block';
             batchResult.style.display = 'none';
-            
+
             try {
                 // For batch processing, we'll make individual requests
                 // In a real implementation, you might want to add a batch endpoint to your API
                 const results = [];
-                
+
                 for (const item of items) {
                     if (!item.title) {
                         results.push({
@@ -840,7 +888,7 @@
                         });
                         continue;
                     }
-                    
+
                     try {
                         const response = await fetch(`${API_BASE_URL}/predict`, {
                             method: 'POST',
@@ -852,7 +900,7 @@
                                 text: item.text || null
                             })
                         });
-                        
+
                         if (response.ok) {
                             const data = await response.json();
                             results.push(data);
@@ -871,10 +919,10 @@
                         });
                     }
                 }
-                
+
                 // Display batch results
                 displayBatchResults(results);
-                
+
             } catch (error) {
                 console.error('Batch analysis failed:', error);
                 alert('Batch analysis failed. Please check the API connection.');
@@ -886,11 +934,11 @@
         // Display single result
         function displaySingleResult(data) {
             singleResult.style.display = 'block';
-            
+
             // Set sentiment
             const sentiment = data.prediction;
             sentimentValue.textContent = sentiment;
-            
+
             // Style based on sentiment
             if (sentiment.toLowerCase().includes('positive')) {
                 sentimentLabel.textContent = 'POSITIVE';
@@ -902,7 +950,7 @@
                 sentimentLabel.textContent = 'NEUTRAL';
                 sentimentLabel.className = 'sentiment-label sentiment-neutral';
             }
-            
+
             // Set confidence (using placeholder if not provided)
             const confidence = data.confidence || 0.85;
             const confidencePercent = Math.round(confidence * 100);
@@ -914,24 +962,24 @@
         function displayBatchResults(results) {
             batchResult.style.display = 'block';
             batchResultsBody.innerHTML = '';
-            
+
             results.forEach(result => {
                 const row = document.createElement('tr');
-                
+
                 // Title cell
                 const titleCell = document.createElement('td');
                 titleCell.textContent = result.title || 'N/A';
                 row.appendChild(titleCell);
-                
+
                 // Text cell
                 const textCell = document.createElement('td');
                 textCell.textContent = result.text || 'N/A';
                 row.appendChild(textCell);
-                
+
                 // Sentiment cell
                 const sentimentCell = document.createElement('td');
                 sentimentCell.textContent = result.prediction || 'ERROR';
-                
+
                 // Color code based on sentiment
                 if (result.prediction) {
                     if (result.prediction.toLowerCase().includes('positive')) {
@@ -944,11 +992,12 @@
                 } else {
                     sentimentCell.style.color = '#ff0000';
                 }
-                
+
                 row.appendChild(sentimentCell);
                 batchResultsBody.appendChild(row);
             });
         }
     </script>
 </body>
+
 </html>

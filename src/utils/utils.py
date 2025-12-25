@@ -1,6 +1,6 @@
 import requests
 import os
-import pandas as pd 
+import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 import pickle
@@ -11,7 +11,6 @@ from src.utils.logger import logger
 from src.utils.exception import CustomException
 
 
-
 def download_file(url, dest_folder):
     # Create the destination folder if it doesn't exist
     if not os.path.exists(dest_folder):
@@ -19,7 +18,7 @@ def download_file(url, dest_folder):
         print(f"Created directory: {dest_folder}")
 
     # Get the file name from the URL
-    filename = url.split('/')[-1]
+    filename = url.split("/")[-1]
     file_path = os.path.join(dest_folder, filename)
 
     # Download the file
@@ -27,7 +26,7 @@ def download_file(url, dest_folder):
         response = requests.get(url, stream=True)
         response.raise_for_status()  # Raise an error for bad status codes (e.g., 404)
 
-        with open(file_path, 'wb') as file:
+        with open(file_path, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
         print(f"Downloaded {filename} to {file_path}")
@@ -48,7 +47,7 @@ def datasplit(df: pd.DataFrame, test_size: float = 0.2, random_state: int = 42):
         random_state (int): Random seed for reproducibility. Default is 42.
 
     Returns:
-        Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]: 
+        Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
             X_train, X_test, y_train, y_test
     """
     try:
@@ -65,11 +64,17 @@ def datasplit(df: pd.DataFrame, test_size: float = 0.2, random_state: int = 42):
             if isinstance(v, str):
                 try:
                     # handle cases like '[-0.62 0.13 ...]' or '[-0.62, 0.13, ...]'
-                    cleaned = v.replace("\n", " ").replace("[", "").replace("]", "").replace(",", " ")
+                    cleaned = (
+                        v.replace("\n", " ")
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace(",", " ")
+                    )
                     return np.fromstring(cleaned, sep=" ")
                 except Exception:
                     # fallback: try literal_eval for list-like strings
                     import ast
+
                     return np.array(ast.literal_eval(v), dtype=float)
             return np.array(v, dtype=float)
 
@@ -80,19 +85,20 @@ def datasplit(df: pd.DataFrame, test_size: float = 0.2, random_state: int = 42):
         encoder = LabelEncoder()
         y = encoder.fit_transform(df["sentiment"])
 
-        logger.info(f"✅ Dataset shape: X={X.shape}, y={len(y)}")
+        logger.info(f"Dataset shape: X={X.shape}, y={len(y)}")
 
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=random_state
         )
 
-        logger.info(f"✅ Train-test split complete: Train={X_train.shape[0]}, Test={X_test.shape[0]}")
+        logger.info(
+            f"Train-test split complete: Train={X_train.shape[0]}, Test={X_test.shape[0]}"
+        )
         return X_train, X_test, y_train, y_test
 
     except Exception as e:
-        logger.exception("❌ Error during train-test split")
+        logger.exception("Error during train-test split")
         raise CustomException(e)
-
 
 
 def sequence_split(df, config):
@@ -130,7 +136,9 @@ def sequence_split(df, config):
         tokenizer = Tokenizer(num_words=num_words, oov_token="<OOV>")
         tokenizer.fit_on_texts(df["clean_text"])
         sequences = tokenizer.texts_to_sequences(df["clean_text"])
-        padded_sequences = pad_sequences(sequences, maxlen=max_len, padding="post", truncating="post")
+        padded_sequences = pad_sequences(
+            sequences, maxlen=max_len, padding="post", truncating="post"
+        )
 
         # --- Train-test split ---
         X_train, X_test, y_train, y_test = train_test_split(
@@ -144,9 +152,11 @@ def sequence_split(df, config):
 
         with open(tokenizer_path, "wb") as f:
             pickle.dump(tokenizer, f)
-        logger.info(f"💾 Tokenizer saved at: {tokenizer_path}")
+        logger.info(f"Tokenizer saved at: {tokenizer_path}")
 
-        logger.info(f"✅ Sequence split complete: Train={X_train.shape}, Test={X_test.shape}")
+        logger.info(
+            f"Sequence split complete: Train={X_train.shape}, Test={X_test.shape}"
+        )
         return X_train, X_test, y_train, y_test, tokenizer
 
     except Exception as e:

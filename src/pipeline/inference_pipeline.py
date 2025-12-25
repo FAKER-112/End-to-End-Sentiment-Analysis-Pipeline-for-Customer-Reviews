@@ -52,7 +52,7 @@ class InferencePipeline:
 
     def __init__(self, config_path: str = str(Path("configs/inference_pipeline.yaml"))):
         try:
-            logger.info("🔧 Initializing InferencePipeline...")
+            logger.info("Initializing InferencePipeline...")
             self.config = load_config(config_path)
             infer_cfg = self.config.get("inference_pipeline", {})
 
@@ -70,14 +70,14 @@ class InferencePipeline:
 
             self.model = self._load_model()
             logger.info(
-                f"✅ InferencePipeline initialized successfully with model: {self.model_path}"
+                f"InferencePipeline initialized successfully with model: {self.model_path}"
             )
 
         except Exception as e:
-            logger.exception("❌ Failed to initialize inference pipeline")
+            logger.exception("Failed to initialize inference pipeline")
             raise CustomException(e)
 
-    # ------------------------------------------------------------------
+     
     def _load_model(self):
         """Load model (.h5 for DL, .pkl for classical ML)."""
         try:
@@ -94,15 +94,15 @@ class InferencePipeline:
                 raise ValueError(f"Unsupported model type for file: {self.model_path}")
             return model
         except Exception as e:
-            logger.exception("❌ Error loading model")
+            logger.exception("Error loading model")
             raise CustomException(e)
 
-    # ------------------------------------------------------------------
+     
     def _predict(self, df: pd.DataFrame):
         """Generate predictions based on model type."""
         try:
             if self.model_type == "h5":
-                X = np.stack(df["sequence"].values)  # ✅ stack into (N, 200)
+                X = np.stack(df["sequence"].values)  # stack into (N, 200)
                 preds = self.model.predict(X)
                 preds = (preds > 0.5).astype(int).flatten()
             else:
@@ -112,10 +112,10 @@ class InferencePipeline:
             df["predicted_label"] = np.where(preds == 1, "positive", "negative")
             return df
         except Exception as e:
-            logger.exception("❌ Error during prediction")
+            logger.exception("Error during prediction")
             raise CustomException(e)
 
-    # ------------------------------------------------------------------
+     
     def run(self, title, text=None, batch_mode=False):
         """
         Run inference on a single or batch input.
@@ -126,7 +126,7 @@ class InferencePipeline:
             batch_mode (bool): Enable batch mode if multiple samples are provided.
         """
         try:
-            logger.info("🚀 Starting inference process...")
+            logger.info("Starting inference process...")
 
             # Decide tokenizer usage based on model type
             use_tokenizer = self.model_type == "h5"
@@ -148,20 +148,20 @@ class InferencePipeline:
             if self.save_results:
                 os.makedirs(os.path.dirname(self.output_path), exist_ok=True)
                 df.to_csv(self.output_path, index=False)
-                logger.info(f"💾 Inference results saved at: {self.output_path}")
+                logger.info(f"Inference results saved at: {self.output_path}")
 
-            logger.info("✅ Inference completed successfully")
+            logger.info("Inference completed successfully")
             return df
 
         except Exception as e:
-            logger.exception("❌ Inference pipeline failed")
+            logger.exception("Inference pipeline failed")
             raise CustomException(e)
 
 
 if __name__ == "__main__":
     pipe = InferencePipeline(config_path="configs/pipeline_params.yaml")
 
-    # 🔹 Single sample (beauty domain, negative example)
+    # Single sample (beauty domain, negative example)
     result_df = pipe.run(
         title="Foundation oxidized terribly",
         text="This foundation turned orange after a few minutes of application. It looked fine at first, but quickly darkened and made my skin patchy.",
@@ -170,7 +170,7 @@ if __name__ == "__main__":
     print("\nSingle Sample Result:")
     print(result_df)
 
-    # 🔹 Batch mode (multiple beauty-domain negative samples)
+    # Batch mode (multiple beauty-domain negative samples)
     title = (
         "Mascara clumps everywhere|||"
         "Caused irritation and redness|||"

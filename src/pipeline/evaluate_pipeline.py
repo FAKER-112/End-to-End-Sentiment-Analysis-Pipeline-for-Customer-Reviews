@@ -65,7 +65,7 @@ class EvaluationPipeline:
 
     def __init__(self, pipeline_config_path="configs/evaluation_pipeline.yaml"):
         try:
-            logger.info("🔧 Initializing Evaluation Pipeline...")
+            logger.info("Initializing Evaluation Pipeline...")
             if not os.path.exists(pipeline_config_path):
                 raise FileNotFoundError(f"Config not found: {pipeline_config_path}")
 
@@ -78,12 +78,11 @@ class EvaluationPipeline:
             self.eval_cfg = self.pipeline_config.get("evaluation", {})
             self.train_cfg = self.pipeline_config.get("training", {})
 
-            logger.info(f"✅ Loaded evaluation config from {pipeline_config_path}")
+            logger.info(f"Loaded evaluation config from {pipeline_config_path}")
         except Exception as e:
-            logger.error("❌ Failed to initialize EvaluationPipeline.")
+            logger.error("Failed to initialize EvaluationPipeline.")
             raise CustomException(e)
 
-    # -------------------------------------------------------------------------
     def _load_or_prepare_data(self):
         """Load preprocessed data or generate cleaned data if missing."""
         try:
@@ -92,19 +91,19 @@ class EvaluationPipeline:
             )
 
             if os.path.exists(cleaned_path):
-                logger.info(f"📂 Loading cleaned data from {cleaned_path}")
+                logger.info(f"Loading cleaned data from {cleaned_path}")
                 import pandas as pd
 
                 df = pd.read_csv(cleaned_path)
             else:
-                logger.warning("⚠️ Cleaned data not found, running CleanData()...")
+                logger.warning("Cleaned data not found, running CleanData()...")
                 df = CleanData().clean_data()
 
-            logger.info(f"✅ Data ready for evaluation: {df.shape}")
+            logger.info(f"Data ready for evaluation: {df.shape}")
             return df
 
         except Exception as e:
-            logger.error("❌ Failed to load or prepare data.")
+            logger.error("Failed to load or prepare data.")
             raise CustomException(e)
 
     def _load_models(self, df=None):
@@ -118,10 +117,10 @@ class EvaluationPipeline:
         models = {}
 
         try:
-            # ✅ 1. Force retrain all models if specified
+            # 1. Force retrain all models if specified
             if train_all:
                 logger.info(
-                    "🧠 Config specifies train_all_models=True — retraining all models..."
+                    "Config specifies train_all_models=True — retraining all models..."
                 )
                 trainer = ModelTrainer(
                     dataframe=df,
@@ -129,26 +128,26 @@ class EvaluationPipeline:
                     target_column=self.train_cfg.get("target_column"),
                 )
                 models = trainer.train_all_models()
-                logger.info("✅ All models retrained and loaded successfully.")
+                logger.info("All models retrained and loaded successfully.")
                 return models
 
-            # ✅ 2. Load from artifacts/models
+            # 2. Load from artifacts/models
             if not os.path.exists(source_dir) or not any(os.scandir(source_dir)):
                 if train_if_missing:
-                    logger.warning("⚠️ No models found, training all models...")
+                    logger.warning("No models found, training all models...")
                     trainer = ModelTrainer(
                         dataframe=df,
                         yaml_config_path=self.train_cfg.get("config_path"),
                         target_column=self.train_cfg.get("target_column"),
                     )
                     models = trainer.train_all_models()
-                    logger.info("✅ Models trained (fallback).")
+                    logger.info("Models trained (fallback).")
                     return models
                 else:
                     raise FileNotFoundError(f"No models found in {source_dir}")
 
-            # ✅ 3. Load existing models
-            logger.info(f"📁 Loading models from {source_dir}...")
+            # 3. Load existing models
+            logger.info(f"Loading models from {source_dir}...")
             for root, _, files in os.walk(source_dir):
                 for file in files:
                     if not (file.endswith(".pkl") or file.endswith(".h5")):
@@ -166,9 +165,9 @@ class EvaluationPipeline:
                         else:
                             model = load_model(model_path)
                         models[model_name] = model
-                        logger.info(f"✅ Loaded model: {model_name} ({file})")
+                        logger.info(f"Loaded model: {model_name} ({file})")
                     except Exception as load_err:
-                        logger.warning(f"⚠️ Failed to load {file}: {load_err}")
+                        logger.warning(f"Failed to load {file}: {load_err}")
 
             if not models:
                 raise CustomException("No valid models loaded for evaluation.")
@@ -176,13 +175,13 @@ class EvaluationPipeline:
             return models
 
         except Exception as e:
-            logger.error(f"❌ Failed to load models: {e}")
+            logger.error(f"Failed to load models: {e}")
             raise CustomException(e)
 
     def run(self):
         """Execute full evaluation pipeline."""
         try:
-            logger.info("🚀 Starting Evaluation Pipeline...")
+            logger.info("Starting Evaluation Pipeline...")
 
             # Load cleaned data
             df = self._load_or_prepare_data()
@@ -204,7 +203,7 @@ class EvaluationPipeline:
             results = {}
 
             for name, model in models.items():
-                logger.info(f"📊 Evaluating model: {name}")
+                logger.info(f"Evaluating model: {name}")
                 if name == "logistic_regression":
                     trainer._prepare_data(model_type="logistic_regression")
                     X_test, y_test = trainer.X_test, trainer.y_test
@@ -227,11 +226,11 @@ class EvaluationPipeline:
                 output_dir=self.eval_cfg.get("best_model_dir"),
             )
 
-            logger.info(f"🏁 Evaluation complete. Best model: {best_model_name}")
+            logger.info(f"Evaluation complete. Best model: {best_model_name}")
             return results, best_model_name, best_metrics
 
         except Exception as e:
-            logger.error(f"❌ Evaluation pipeline failed: {e}")
+            logger.error(f"Evaluation pipeline failed: {e}")
             raise CustomException(e)
 
 
@@ -242,4 +241,4 @@ if __name__ == "__main__":
         )
         pipeline.run()
     except Exception as e:
-        logger.error(f"🔥 Fatal error in EvaluationPipeline: {e}")
+        logger.error(f"Fatal error in EvaluationPipeline: {e}")

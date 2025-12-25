@@ -51,7 +51,7 @@ class ModelEvaluator:
             "f1": f1_score(y_test, y_pred, average="weighted", zero_division=0),
         }
         self.metrics[model_name] = metrics
-        logger.info(f"📊 {model_name} metrics: {metrics}")
+        logger.info(f"{model_name} metrics: {metrics}")
         return metrics
 
     def get_best_model(self, results):
@@ -59,7 +59,7 @@ class ModelEvaluator:
         best_model_name = max(results, key=lambda x: results[x]["accuracy"])
         best_metrics = results[best_model_name]
         logger.info(
-            f"🏆 Best model: {best_model_name} (Accuracy={best_metrics['accuracy']:.4f})"
+            f"Best model: {best_model_name} (Accuracy={best_metrics['accuracy']:.4f})"
         )
         return best_model_name, best_metrics
 
@@ -68,7 +68,7 @@ class ModelEvaluator:
         metrics_path = os.path.join(output_dir, "metrics.json")
         with open(metrics_path, "w") as f:
             json.dump(results, f, indent=4)
-        logger.info(f"💾 Evaluation results saved to {metrics_path}")
+        logger.info(f"Evaluation results saved to {metrics_path}")
 
     def save_best_model(
         self, best_model_name, best_model_obj, output_dir="artifacts/best_model"
@@ -86,10 +86,10 @@ class ModelEvaluator:
                 with open(model_path, "wb") as f:
                     pickle.dump(best_model_obj, f)
 
-            logger.info(f"💾 Best model saved to {model_path}")
+            logger.info(f"Best model saved to {model_path}")
 
         except Exception as e:
-            logger.error(f"❌ Failed to save best model: {e}")
+            logger.error(f"Failed to save best model: {e}")
 
 
 if __name__ == "__main__":

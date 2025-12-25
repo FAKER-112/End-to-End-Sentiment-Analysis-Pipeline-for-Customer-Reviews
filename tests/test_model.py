@@ -27,9 +27,9 @@ from src.models.evaluate_model import ModelEvaluator
 from src.utils.exception import CustomException
 
 
-# ============================================================================
+ 
 # FIXTURES
-# ============================================================================
+ 
 
 
 @pytest.fixture
@@ -124,9 +124,9 @@ def sample_dataframe():
     )
 
 
-# ============================================================================
+ 
 # MODEL BUILDER TESTS
-# ============================================================================
+ 
 
 
 class TestModelBuilder:
@@ -293,9 +293,9 @@ class TestModelBuilder:
         assert model.max_iter == 500
 
 
-# ============================================================================
+ 
 # MODEL TRAINER TESTS
-# ============================================================================
+ 
 
 
 class TestModelTrainer:
@@ -510,9 +510,9 @@ class TestModelTrainer:
         mock_pickle.assert_called_once()  # Verify pickle.dump was called
 
 
-# ============================================================================
+ 
 # MODEL EVALUATOR TESTS
-# ============================================================================
+ 
 
 
 class TestModelEvaluator:
@@ -639,9 +639,9 @@ class TestModelEvaluator:
                 assert mock_pickle.called
 
 
-# ============================================================================
+ 
 # INTEGRATION TESTS
-# ============================================================================
+ 
 
 
 class TestModelIntegration:

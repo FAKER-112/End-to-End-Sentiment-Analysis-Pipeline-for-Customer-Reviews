@@ -56,33 +56,33 @@ class ModelTrainer:
         self.models = {}
         self.histories = {}
 
-        # --- Load YAML config ---
+        #  Load YAML config
         if not os.path.exists(yaml_config_path):
-            raise FileNotFoundError(f"❌ Config file not found: {yaml_config_path}")
+            raise FileNotFoundError(f"Config file not found: {yaml_config_path}")
         with open(yaml_config_path, "r") as f:
             self.config = yaml.safe_load(f)
 
-        # --- Merge model params if included ---
+        #  Merge model params if included
         model_params_path = self.config.get("include_model_params")
         if model_params_path and os.path.exists(model_params_path):
             with open(model_params_path, "r") as f:
                 model_params = yaml.safe_load(f)
                 self.config.update(model_params)
 
-        # --- Setup MLflow ---
+        #  Setup MLflow
         mlflow_cfg = self.config.get("mlflow", {})
         mlflow.set_tracking_uri(mlflow_cfg.get("tracking_uri", "./mlruns"))
         mlflow.set_experiment(mlflow_cfg.get("experiment_name", "default_experiment"))
 
-        # --- Initialize model builder ---
+        #   Initialize model builder
         self.model_builder = ModelBuilder(config_dict=self.config)
 
-        logger.info("✅ ModelTrainer initialized successfully")
+        logger.info("ModelTrainer initialized successfully")
 
-    # -------------------------------------------------------------------------
+    #                         -
     def _prepare_data(self, model_type="logistic_regression"):
         try:
-            logger.info(f"🔄 Preparing data for model type: {model_type}")
+            logger.info(f"Preparing data for model type: {model_type}")
             if model_type in ["lstm", "cnn", "cnn_lstm"]:
                 self.X_train, self.X_test, self.y_train, self.y_test, self.tokenizer = (
                     sequence_split(self.df, self.config)
@@ -98,10 +98,10 @@ class ModelTrainer:
                     ),
                 )
             logger.info(
-                f"✅ Data ready for {model_type} — Train: {self.X_train.shape}, Test: {self.X_test.shape}"
+                f"Data ready for {model_type} — Train: {self.X_train.shape}, Test: {self.X_test.shape}"
             )
         except Exception as e:
-            logger.exception(f"❌ Error preparing data for {model_type}: {str(e)}")
+            logger.exception(f"Error preparing data for {model_type}: {str(e)}")
             raise CustomException(e)
 
     def _get_training_data(self, model_type):
@@ -124,12 +124,11 @@ class ModelTrainer:
             )
         return callbacks
 
-    # -------------------------------------------------------------------------
     def train_model(self, model_type, custom_params=None):
         """Generic model training method"""
         with mlflow.start_run(run_name=model_type):
             try:
-                logger.info(f"🚀 Training: {model_type.upper()}")
+                logger.info(f"Training: {model_type.upper()}")
 
                 model_cfg = self.config.get(f"{model_type}_model", {})
                 train_cfg = model_cfg.get("training", {})
@@ -184,14 +183,13 @@ class ModelTrainer:
                     mlflow.keras.log_model(model, model_type)
 
                 self.models[model_type] = model
-                logger.info(f"💾 Saved model to {model_path}")
+                logger.info(f"Saved model to {model_path}")
                 return model
 
             except Exception as e:
-                logger.error(f"❌ Training failed for {model_type}: {e}")
+                logger.error(f"Training failed for {model_type}: {e}")
                 raise CustomException(f"{model_type.upper()} training failed: {e}")
 
-    # -------------------------------------------------------------------------
     def train_all_models(self):
         """Train all models defined in config"""
         results = {}

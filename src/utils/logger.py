@@ -23,11 +23,11 @@ file_handler = RotatingFileHandler(
     LOG_FILE,
     maxBytes=5_000_000,
     backupCount=5,
-    encoding="utf-8"  # ✅ important for Unicode emojis
+    encoding="utf-8",  # important for Unicode emojis
 )
-file_handler.setFormatter(logging.Formatter(
-    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-))
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+)
 
 # -------------------------------
 # Console handler with UTF-8
@@ -46,5 +46,5 @@ logger.addHandler(console_handler)
 # Test emoji logging
 # -------------------------------
 if __name__ == "__main__":
-    logger.info("✅ Logger initialized successfully!")
-    logger.info("🧠 Testing emojis in logs...")
+    logger.info("Logger initialized successfully!")
+    logger.info("Testing emojis in logs...")
